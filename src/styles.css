@@ -1,0 +1,483 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap");
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-ring-offset-background: hsl(var(--background));
+  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+
+  /* OMG Brand tokens mapped to utility names */
+  --color-saffron: #e32c26;
+  --color-gold: #283088;
+
+  --color-status-low: hsl(152 60% 40%);
+  --color-status-mod: hsl(38 92% 50%);
+  --color-status-high: hsl(0 72% 51%);
+
+  --color-ai-bg: #ecf0ff;
+  --color-user-bg: #fcfcfc;
+
+  /* OMG official fonts */
+  --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Montserrat', sans-serif;
+  --font-display: 'Playfair Display', serif;
+}
+
+:root {
+  --radius: 0.5rem;
+
+  /* OMG Official exact color values */
+  --background: 0 0% 99%;
+  /* #fcfcfc */
+  --foreground: 234 75% 7%;
+  /* #0f172a deep navy */
+  --card: 0 0% 100%;
+  --card-foreground: 234 75% 7%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 234 75% 7%;
+  --primary: 2 76% 52%;
+  /* #e32c26 OMG Red */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 232 55% 35%;
+  /* #283088 OMG Blue */
+  --secondary-foreground: 0 0% 100%;
+  --muted: 232 30% 95%;
+  --muted-foreground: 220 12% 46%;
+  --accent: 232 55% 35%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 2 76% 52%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 220 15% 90%;
+  --input: 220 15% 87%;
+  --ring: 2 76% 52%;
+
+  /* Sidebar uses OMG's deep navy #131a72 */
+  --sidebar-background: 233 90% 26%;
+  --sidebar-foreground: 0 0% 100%;
+  --sidebar-primary: 2 76% 52%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 233 90% 20%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar-border: 233 60% 22%;
+  --sidebar-ring: 2 76% 52%;
+
+  /* OMG exact brand hex values */
+  --brand-red: #e32c26;
+  --brand-navy: #131a72;
+  --brand-blue: #283088;
+  --brand-mid-blue: #3843a6;
+  --brand-dark: #0f172a;
+  --brand-light-blue: #ecf0ff;
+  --brand-near-white: #fcfcfc;
+
+  --sidebar-gradient-start: #131a72;
+  --sidebar-gradient-end: #e32c26;
+}
+
+.dark {
+  --background: 234 75% 7%;
+  --foreground: 0 0% 98%;
+  --card: 234 60% 10%;
+  --card-foreground: 0 0% 98%;
+  --popover: 234 60% 10%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 2 76% 52%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 232 55% 35%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 234 40% 15%;
+  --muted-foreground: 220 20% 70%;
+  --accent: 232 55% 35%;
+  --accent-foreground: 0 0% 100%;
+  --border: 234 40% 20%;
+  --input: 234 40% 20%;
+  --ring: 2 76% 52%;
+  --sidebar-background: 233 90% 16%;
+  --sidebar-foreground: 0 0% 100%;
+  --sidebar-border: 233 60% 12%;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-size: 14px;
+  }
+
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.55;
+    background-image: none;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .dark body {
+    background-image: none;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-serif);
+  }
+
+  .font-serif {
+    font-family: var(--font-serif);
+  }
+
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .gradient-hero {
+    background: linear-gradient(135deg, var(--color-background) 0%, var(--color-muted) 100%);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* OMG Red-to-Navy brand gradient */
+  .gradient-saffron {
+    background: linear-gradient(135deg, var(--brand-red) 0%, var(--brand-navy) 100%);
+  }
+
+  /* Glassmorphism */
+  .glass-card {
+    background: var(--color-card);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.04);
+  }
+
+  .dark .glass-card {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .glass-panel {
+    background: rgba(252, 252, 252, 0.96);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .card-soft {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Hover lift */
+  .hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -6px rgba(227, 44, 38, 0.18);
+    border-color: rgba(227, 44, 38, 0.25);
+  }
+
+  /* Animations */
+  @keyframes om-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .om-spin {
+    animation: om-spin 2s linear infinite;
+  }
+
+  @keyframes pulse-soft {
+
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    50% {
+      opacity: 0.7;
+      transform: scale(1.04);
+    }
+  }
+
+  .pulse-soft {
+    animation: pulse-soft 2s ease-in-out infinite;
+  }
+
+  @keyframes ticker-scroll {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .ticker {
+    animation: ticker-scroll 50s linear infinite;
+  }
+
+  @keyframes typing {
+
+    0%,
+    60%,
+    100% {
+      opacity: 0.3;
+      transform: translateY(0);
+    }
+
+    30% {
+      opacity: 1;
+      transform: translateY(-2px);
+    }
+  }
+
+  .typing-dot {
+    animation: typing 1.2s infinite;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px) scale(0.98);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .fade-in {
+    animation: fade-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    scrollbar-width: none;
+  }
+}
+/* ---------------------------------------------------------------------------
+   Girivalam — forest green & gold pilgrimage theme.
+   Scoped to the Girivalam experience and the app sidebar so the devotee pages
+   that use the OMG red/navy palette are untouched.
+--------------------------------------------------------------------------- */
+
+:root {
+  --gv-green-900: #0f3b26;
+  --gv-green-800: #14532d;
+  --gv-green-700: #1a6340;
+  --gv-green-600: #217a4f;
+  --gv-gold-600: #b8860b;
+  --gv-gold-500: #c9a227;
+  --gv-gold-400: #d9b640;
+  --gv-cream: #faf7ef;
+  --gv-cream-200: #f1ead9;
+  --gv-line: #e4ddcc;
+}
+
+@layer utilities {
+  .gv-surface {
+    background-color: var(--gv-cream);
+  }
+
+  .gv-card {
+    background-color: #fff;
+    border: 1px solid var(--gv-line);
+    border-radius: 1rem;
+    box-shadow: 0 1px 2px rgb(20 83 45 / 0.04), 0 8px 24px -16px rgb(20 83 45 / 0.25);
+  }
+}
+
+/* Leaflet pins -------------------------------------------------------------- */
+
+.girivalam-pin,
+.girivalam-hill {
+  background: transparent;
+  border: 0;
+}
+
+/*
+ * A pin has two parts anchored at the same coordinate: a small node that marks
+ * the exact spot on the route, and a label that is pushed radially outward by
+ * an inline transform so neighbouring labels never stack on top of each other.
+ */
+.gv-pin {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  pointer-events: auto;
+}
+
+.gv-pin-node {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 9999px;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 5px rgb(0 0 0 / 0.45);
+  pointer-events: none;
+}
+
+.gv-pin-body {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.32rem 0.6rem;
+  border-radius: 0.6rem;
+  background: rgb(255 255 255 / 0.97);
+  box-shadow: 0 2px 12px rgb(0 0 0 / 0.3);
+  border: 1px solid rgb(255 255 255 / 0.9);
+  transition: box-shadow 0.15s ease;
+}
+
+.gv-pin:hover .gv-pin-body {
+  box-shadow: 0 4px 18px rgb(0 0 0 / 0.38);
+}
+
+.gv-pin-active .gv-pin-body {
+  border-color: var(--gv-gold-500);
+  box-shadow: 0 0 0 2px var(--gv-gold-500), 0 4px 18px rgb(0 0 0 / 0.38);
+}
+
+.gv-pin-icon {
+  display: inline-flex;
+  color: var(--gv-green-800);
+}
+
+.gv-pin-icon-gold {
+  color: var(--gv-gold-600);
+}
+
+.gv-pin-text {
+  display: inline-flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.gv-pin-name {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.gv-pin-km {
+  font-size: 10px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.gv-pin-temple .gv-pin-body {
+  background: linear-gradient(180deg, #fffdf6, #fdf6e3);
+  border-color: var(--gv-gold-400);
+}
+
+/* The temple name is long; let it wrap rather than run across the hill. */
+.gv-pin-temple .gv-pin-text {
+  max-width: 126px;
+  white-space: normal;
+}
+
+.gv-pin-temple .gv-pin-name {
+  line-height: 1.2;
+}
+
+/* Direction-of-travel chevrons sitting on the route line. */
+.gv-arrow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: inline-flex;
+  pointer-events: none;
+}
+
+.gv-hill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  text-shadow: 0 2px 8px rgb(0 0 0 / 0.85);
+  pointer-events: none;
+}
+
+.gv-hill-name {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.gv-hill-sub {
+  font-size: 11px;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+/* Leaflet's own chrome, restyled to match the page. */
+.leaflet-container {
+  font-family: inherit;
+  background: #dfe3d8;
+}
+
+.leaflet-control-attribution {
+  font-size: 9px !important;
+  background: rgb(255 255 255 / 0.78) !important;
+  border-radius: 6px 0 0 0;
+}

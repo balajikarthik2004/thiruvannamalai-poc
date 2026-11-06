@@ -1,0 +1,859 @@
+=== src/routes/_app.booking.$slug.tsx ===
+import { createFileRoute, notFound } from "@tanstack/react-router";
+import { getTemple } from "@/data/temples";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+
+import { BookingHeader } from "@/features/booking/components/BookingHeader";
+import { DateTimeSelector } from "@/features/booking/components/DateTimeSelector";
+import { BookingForm } from "@/features/booking/components/BookingForm";
+import { BookingSummary } from "@/features/booking/components/BookingSummary";
+import { BookingSuccess } from "@/features/booking/components/BookingSuccess";
+import { UpcomingEvents } from "@/features/booking/components/UpcomingEvents";
+import { Check } from "lucide-react";
+
+export const Route = createFileRoute("/_app/booking/$slug")({
+  loader: ({ params }) => {
+    const t = getTemple(params.slug);
+    if (!t) throw notFound();
+    return { temple: t };
+  },
+  head: ({ loaderData }) => ({
+    meta: [{ title: `Special Darshan Booking — ${loaderData?.temple.name}` }],
+  }),
+  component: BookingPage,
+});
+
+import { Star, Sparkles, Crown } from "lucide-react";
+
+export const DARSHAN_CATEGORIES = [
+  { id: "special", name: "Special Darshan", price: 50, desc: "Standard special queue", icon: Sparkles },
+  { id: "vip", name: "VIP Darshan", price: 200, desc: "Fast-track entry", icon: Star },
+  { id: "vvip", name: "VVIP Darshan", price: 500, desc: "Direct sanctum access", icon: Crown },
+];
+
+function BookingPage() {
+  const { temple: t } = Route.useLoaderData();
+  const { t: tStr } = useTranslation();
+
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string>("");
+  const [details, setDetails] = useState({ persons: 1, name: "", phone: "", idNumber: "", categoryId: "vip" });
+  const [errors, setErrors] = useState<any>({});
+  
+  const [step, setStep] = useState<1 | 2 | 3 | "processing" | "success">(1);
+
+  const handleProceedToDetails = () => {
+    if (!selectedDate || !selectedTime) {
+      setErrors({ date: tStr("Please select a date and time.") });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    setErrors({});
+    setStep(2);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleProceedToPayment = () => {
+    const errs: any = {};
+    if (!details.name.trim()) errs.name = tStr("Name is required");
+    if (details.phone.length < 10) errs.phone = tStr("Valid 10-digit phone number required");
+    if (details.idNumber.length < 4) errs.idNumber = tStr("Valid ID number required");
+
+    if (Object.keys(errs).length > 0) {
+      setErrors(errs);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    setErrors({});
+    setStep(3);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handlePay = () => {
+    setStep("processing");
+    // Simulate secure payment processing
+    setTimeout(() => {
+      setStep("success");
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 3500);
+  };
+
+  let currentStep = typeof step === "number" ? step : 3;
+
+  return (
+    <div className="pb-32 lg:pb-8 min-h-screen bg-[#fafafc] relative overflow-hidden">
+      {/* Background ambient glows */}
+      <div className="absolute top-0 left-0 w-full h-[600px] bg-gradient-to-b from-saffron/10 via-amber-500/5 to-transparent pointer-events-none z-0" />
+      <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-saffron/20 blur-[100px] pointer-events-none z-0" />
+      <div className="absolute top-[20%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-orange-500/10 blur-[120px] pointer-events-none z-0" />
+      <BookingHeader t={t} />
+
+      {/* Stepper UI */}
+      <div className="max-w-2xl mx-auto px-4 mt-10 mb-10">
+        <div className="flex items-center justify-between relative">
+          <div className="absolute left-0 right-0 top-5 -translate-y-1/2 h-1 bg-slate-200 rounded-full z-0" />
+          <div className="absolute left-0 top-5 -translate-y-1/2 h-1 bg-gradient-to-r from-saffron to-amber-500 transition-all duration-700 ease-in-out rounded-full z-0" style={{ width: currentStep === 1 ? '0%' : currentStep === 2 ? '50%' : '100%' }} />
+          
+          {[1, 2, 3].map(num => (
+            <div key={num} className="relative z-10 flex flex-col items-center gap-3">
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-500 ease-out 
+                ${currentStep > num ? "bg-gradient-to-br from-saffron to-amber-500 text-white shadow-lg shadow-amber-500/40 ring-4 ring-amber-50 scale-100" 
+                : currentStep === num ? "bg-white text-saffron border-2 border-saffron shadow-lg shadow-saffron/20 ring-4 ring-saffron/10 scale-110" 
+                : "bg-white/80 backdrop-blur-sm border-2 border-slate-200/60 text-slate-400 scale-100 shadow-sm"}`}>
+                {currentStep > num ? <Check className="w-5 h-5" /> : num}
+              </div>
+              <span className={`text-xs uppercase tracking-widest font-bold transition-colors duration-300 ${currentStep === num ? "text-saffron" : currentStep > num ? "text-slate-800" : "text-slate-400"}`}>
+                {num === 1 ? tStr("Schedule") : num === 2 ? tStr("Details") : tStr("Payment")}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="max-w-[1600px] w-full mx-auto px-4 xl:px-10 pt-4 relative z-20">
+        {step === "success" ? (
+          <BookingSuccess t={t} details={details} selectedDate={selectedDate} selectedTime={selectedTime} />
+        ) : (
+          <div className="grid lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2 space-y-6">
+              {errors.date && step === 1 && (
+                <div className="bg-rose-50 text-rose-600 p-3 rounded-xl border border-rose-100 font-medium text-sm">
+                  {tStr("Please select a valid date and time slot.")}
+                </div>
+              )}
+              
+              {step === 1 && (
+                <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                  <DateTimeSelector
+                    t={t}
+                    selectedDate={selectedDate}
+                    setSelectedDate={(d: Date) => { setSelectedDate(d); setErrors((e: any) => ({ ...e, date: null })); }}
+                    selectedTime={selectedTime}
+                    setSelectedTime={(tStr: string) => { setSelectedTime(tStr); setErrors((e: any) => ({ ...e, time: null })); }}
+                  />
+                  <div className="flex justify-end mt-6">
+                    <button onClick={handleProceedToDetails} className="bg-slate-900 text-white font-bold px-8 py-3.5 rounded-xl hover:bg-slate-800 transition-colors shadow-lg">
+                      {tStr("Continue to Details")}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {step === 2 && (
+                <div className="animate-in fade-in slide-in-from-right-8 duration-500">
+                  <BookingForm details={details} setDetails={setDetails} errors={errors} />
+                  <div className="flex justify-between mt-6">
+                    <button onClick={() => setStep(1)} className="text-slate-600 font-bold px-6 py-3.5 rounded-xl hover:bg-slate-100 transition-colors border border-transparent">
+                      {tStr("Back")}
+                    </button>
+                    <button onClick={handleProceedToPayment} className="bg-slate-900 text-white font-bold px-8 py-3.5 rounded-xl hover:bg-slate-800 transition-colors shadow-lg">
+                      {tStr("Continue to Payment")}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {step !== 3 && step !== "processing" && (
+              <div className="space-y-6">
+                <UpcomingEvents slug={t.slug} />
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Step 3: Centered Payment Card */}
+        {(step === 3 || step === "processing") && (
+          <div className="max-w-xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-700">
+            <BookingSummary
+              details={details}
+              selectedDate={selectedDate}
+              selectedTime={selectedTime}
+              onPay={handlePay}
+              isProcessing={step === "processing"}
+            />
+            
+            {step === 3 && (
+              <div className="flex justify-center mt-6">
+                <button onClick={() => setStep(2)} className="text-slate-500 font-bold px-6 py-3 hover:text-slate-800 transition-colors">
+                  {tStr("Back to Details")}
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+=== src/features/booking/components/BookingHeader.tsx ===
+import { Link } from "@tanstack/react-router";
+import { ArrowLeft } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { Temple } from "@/data/temples";
+import muruganImg from "@/assets/murugan.png";
+import meenakshiImg from "@/assets/meenakshi.png";
+
+const bgImages: Record<string, string> = {
+  "palani-murugan": muruganImg,
+  "madurai-meenakshi": meenakshiImg,
+};
+
+export function BookingHeader({ t }: { t: Temple }) {
+  const { t: tStr } = useTranslation();
+  const hasBgImg = !!bgImages[t.slug];
+
+  return (
+    <div className="relative h-[160px] overflow-hidden" style={{
+      background: hasBgImg
+        ? `url(${bgImages[t.slug]}) center 30% / cover no-repeat`
+        : t.image 
+          ? `url(${t.image}) center 20% / cover no-repeat`
+          : `linear-gradient(135deg, ${t.gradientFrom}, ${t.color})`
+    }}>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
+      
+      <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4 z-10">
+        <Link to="/temple/$slug" params={{ slug: t.slug }} className="w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center text-white hover:bg-white/30 transition">
+          <ArrowLeft className="w-5 h-5" />
+        </Link>
+      </div>
+      
+      <div className="absolute bottom-0 inset-x-0 p-5 lg:p-8 text-white z-10">
+        <div className="inline-flex items-center gap-1.5 bg-saffron/90 text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full mb-2">
+          {tStr("Special Entry Darshan")}
+        </div>
+        <h1 className="font-serif text-3xl font-semibold leading-tight drop-shadow-lg">{tStr(t.name)}</h1>
+        <div className="text-sm opacity-90 flex items-center gap-1 mt-1 drop-shadow-md">
+          {tStr(t.city)}, {tStr(t.district)} {tStr("District")}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+=== src/features/booking/components/DateTimeSelector.tsx ===
+import { useTranslation } from "react-i18next";
+import { Temple } from "@/data/temples";
+import { Clock, AlertCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { useMemo, useState } from "react";
+import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isSameMonth, isSameDay, addDays, isBefore, isAfter } from "date-fns";
+
+export function DateTimeSelector({ t, selectedDate, setSelectedDate, selectedTime, setSelectedTime }: any) {
+  const { t: tStr } = useTranslation();
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+
+  // Business logic bounds
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const maxDate = new Date(today);
+  maxDate.setDate(today.getDate() + 90); // Allow booking up to 90 days in advance
+
+  // Generate time slots based on EXACT temple timings
+  const availableTimes = useMemo(() => {
+    if (!selectedDate) return [];
+    
+    const timeToMins = (tStr: string | undefined) => {
+      if (!tStr) return -1;
+      const [h, m] = tStr.split(":").map(Number);
+      return h * 60 + m;
+    };
+
+    const openMins = timeToMins(t.openTime);
+    const closeMins = timeToMins(t.closeTime);
+    const acMins = timeToMins(t.afternoonClose);
+    const aoMins = timeToMins(t.afternoonOpen);
+    
+    const slots = [];
+    const now = new Date();
+    const minTimeMs = now.getTime() + 24 * 60 * 60 * 1000; // 24 hours from now
+
+    // Start from the first full hour after opening
+    const startHour = Math.ceil(openMins / 60);
+    // End before closing
+    const endHour = Math.ceil(closeMins / 60); 
+
+    for (let h = startHour; h < endHour; h++) {
+      const slotMins = h * 60;
+      
+      // Stop if slot is at or past closing time
+      if (slotMins >= closeMins) continue;
+
+      // Skip slots that fall inside the afternoon break
+      if (acMins !== -1 && aoMins !== -1) {
+        if (slotMins >= acMins && slotMins < aoMins) continue;
+      }
+
+      // Check the 24-hour advance booking rule
+      const slotDate = new Date(selectedDate);
+      slotDate.setHours(h, 0, 0, 0);
+
+      if (slotDate.getTime() >= minTimeMs) {
+        const ampm = h >= 12 ? tStr("PM") : tStr("AM");
+        const hr12 = h > 12 ? h - 12 : (h === 0 ? 12 : h);
+        slots.push(`${hr12}:00 ${ampm}`);
+      }
+    }
+    return slots;
+  }, [selectedDate, t, tStr]);
+
+  const renderHeader = () => {
+    return (
+      <div className="flex justify-between items-center mb-6 px-2">
+        <h3 className="font-bold text-[28px] text-slate-800 font-serif tracking-tight drop-shadow-sm">
+          {format(currentMonth, "MMMM yyyy")}
+        </h3>
+        <div className="flex gap-2">
+          <button 
+            onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} 
+            className="w-10 h-10 flex items-center justify-center rounded-full border border-white/80 bg-white/50 backdrop-blur-md hover:bg-white text-slate-700 transition-all shadow-sm hover:shadow-md hover:-translate-x-0.5"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button 
+            onClick={() => setCurrentMonth(addMonths(currentMonth, 1))} 
+            className="w-10 h-10 flex items-center justify-center rounded-full border border-white/80 bg-white/50 backdrop-blur-md hover:bg-white text-slate-700 transition-all shadow-sm hover:shadow-md hover:translate-x-0.5"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  const renderDays = () => {
+    const days = [];
+    const startDate = startOfWeek(startOfMonth(currentMonth));
+    for (let i = 0; i < 7; i++) {
+      days.push(
+        <div key={i} className="text-center font-extrabold text-slate-400 text-[11px] uppercase pb-3 tracking-[0.2em]">
+          {format(addDays(startDate, i), "EE").charAt(0)}
+        </div>
+      );
+    }
+    return <div className="grid grid-cols-7 mb-1">{days}</div>;
+  };
+
+  const renderCells = () => {
+    const monthStart = startOfMonth(currentMonth);
+    const monthEnd = endOfMonth(monthStart);
+    const startDate = startOfWeek(monthStart);
+    const endDate = endOfWeek(monthEnd);
+
+    const rows = [];
+    let days = [];
+    let day = startDate;
+    let formattedDate = "";
+
+    while (day <= endDate) {
+      for (let i = 0; i < 7; i++) {
+        formattedDate = format(day, "d");
+        const cloneDay = new Date(day);
+        const isCurrentMonth = isSameMonth(day, monthStart);
+        const isSelected = selectedDate && isSameDay(day, selectedDate);
+        const isDisabled = isBefore(day, addDays(today, 1)) || isAfter(day, maxDate);
+
+        days.push(
+          <div key={day.toString()} className="p-1 h-16 sm:h-20 lg:h-24">
+            {isCurrentMonth ? (
+              <button
+                disabled={isDisabled}
+                onClick={() => {
+                  setSelectedDate(cloneDay);
+                  setSelectedTime("");
+                }}
+                className={`w-full h-full relative rounded-[14px] transition-all duration-300 ${
+                  isSelected
+                    ? "border-saffron/50 bg-saffron/10 shadow-sm z-10 scale-[1.08] ring-1 ring-saffron/30"
+                    : isDisabled
+                    ? "bg-white/40 opacity-40 cursor-not-allowed border border-transparent"
+                    : "bg-white/60 backdrop-blur-md hover:bg-white border border-white/60 hover:border-saffron/40 hover:shadow-md hover:-translate-y-0.5"
+                }`}
+              >
+                <div className={`absolute top-1 right-1 w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full text-[13px] font-bold transition-colors ${
+                  isSelected ? "text-saffron bg-white shadow-sm" : "text-slate-700 group-hover:text-saffron"
+                }`}>
+                  {formattedDate}
+                </div>
+              </button>
+            ) : (
+              <div className="w-full h-full rounded-xl flex items-start justify-end p-1.5 opacity-30 text-sm font-bold text-slate-400 bg-transparent">
+                <span className="mr-0.5 mt-0.5">{formattedDate}</span>
+              </div>
+            )}
+          </div>
+        );
+        day = addDays(day, 1);
+      }
+      rows.push(
+        <div className="grid grid-cols-7" key={day.toString()}>
+          {days}
+        </div>
+      );
+      days = [];
+    }
+    return <div>{rows}</div>;
+  };
+
+  return (
+    <div className="bg-white/70 backdrop-blur-2xl border border-white/80 rounded-[32px] p-6 shadow-[0_8px_40px_rgb(0,0,0,0.04)] mb-6 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent pointer-events-none" />
+      
+      <div className="relative z-10 bg-gradient-to-r from-amber-50 to-orange-50/50 border border-amber-200/60 rounded-2xl p-4 flex items-start gap-3 mb-6 text-amber-900 text-sm shadow-sm">
+        <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+        <div>
+          <span className="font-bold">{tStr("Advance Booking Required:")}</span>{" "}
+          {tStr("Special Darshan must be booked at least 24 hours in advance.")}
+        </div>
+      </div>
+
+      <div className="mb-4 w-full mx-auto">
+        {renderHeader()}
+        {renderDays()}
+        {renderCells()}
+      </div>
+
+      {selectedDate && (
+        <div className="animate-in fade-in slide-in-from-top-4 duration-300 w-full mx-auto border-t border-slate-100 pt-6">
+          <label className="block text-sm font-bold text-[#2a2c5a] mb-4 flex items-center gap-2">
+            <Clock className="w-4 h-4" /> {tStr("Select Time Slot")}
+          </label>
+          {availableTimes.length === 0 ? (
+            <div className="text-sm text-rose-600 bg-rose-50 p-4 rounded-xl border border-rose-100">
+              {tStr("No slots available for this date that meet the 24-hour advance requirement.")}
+            </div>
+          ) : (
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+              {availableTimes.map((time, i) => (
+                <button
+                  key={i}
+                  onClick={() => setSelectedTime(time)}
+                  className={`py-3.5 px-2 rounded-[16px] text-sm font-bold border transition-all duration-300 text-center ${
+                    selectedTime === time
+                      ? "bg-saffron/10 text-saffron border-saffron/40 shadow-sm scale-105"
+                      : "bg-white/80 backdrop-blur-md border-white/80 text-slate-700 hover:border-saffron/40 hover:bg-white hover:shadow-md hover:-translate-y-0.5"
+                  }`}
+                >
+                  {time}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+=== src/features/booking/components/BookingForm.tsx ===
+import { useTranslation } from "react-i18next";
+import { Users, User, Phone, FileDigit, Star, Accessibility, MonitorPlay, Crown } from "lucide-react";
+
+export function BookingForm({ details, setDetails, errors }: any) {
+  const { t: tStr } = useTranslation();
+
+  const update = (field: string, val: any) => setDetails((prev: any) => ({ ...prev, [field]: val }));
+
+  return (
+    <div className="bg-white/70 backdrop-blur-2xl border border-white/80 rounded-[32px] p-8 shadow-[0_8px_40px_rgb(0,0,0,0.04)] mb-6 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent pointer-events-none" />
+      <div className="relative z-10">
+      <h2 className="font-serif text-xl font-bold text-slate-900 flex items-center gap-2 mb-6">
+        <Users className="w-5 h-5 text-saffron" />
+        {tStr("Devotee Details")}
+      </h2>
+
+      <div className="space-y-4">
+        {/* Darshan Category */}
+        <div className="mb-6">
+          <label className="block text-sm font-bold text-slate-700 mb-2">{tStr("Darshan Category")}</label>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+            {[
+              { id: "general", name: "General Darshan", price: 50, desc: "Standard public queue", icon: Users },
+              { id: "special", name: "Special Entry", price: 200, desc: "Fast-track entry queue", icon: Star },
+              { id: "vip", name: "VIP Darshan", price: 500, desc: "Direct sanctum access", icon: Crown },
+              { id: "senior", name: "Senior Citizen / Differently Abled", price: 100, desc: "Priority entry with assistance", icon: Accessibility, isPremium: true }
+            ].map(cat => {
+              const Icon = cat.icon;
+              const isSelected = details.categoryId === cat.id;
+              const isPremium = cat.isPremium;
+
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => update("categoryId", cat.id)}
+                  className={`relative p-3 rounded-xl border-2 text-left transition-all duration-300 overflow-hidden group ${
+                    isSelected
+                      ? isPremium ? "border-amber-500 bg-gradient-to-br from-amber-50 to-orange-50 shadow-sm shadow-amber-500/20" : "border-saffron bg-amber-50/30 shadow-sm shadow-saffron/10"
+                      : isPremium ? "border-amber-200 bg-gradient-to-br from-amber-50/30 to-white hover:border-amber-400" : "border-slate-100 bg-white hover:border-saffron/30"
+                  }`}
+                >
+                  <div className={`absolute top-0 right-0 w-16 h-16 rounded-bl-full transition-all duration-500 ${
+                    isSelected 
+                      ? isPremium ? "bg-gradient-to-bl from-amber-400/40 to-transparent scale-110" : "bg-gradient-to-bl from-saffron/20 to-transparent scale-110" 
+                      : isPremium ? "bg-amber-100/50 group-hover:bg-amber-300/40 group-hover:scale-125" : "bg-slate-50 group-hover:bg-saffron/10 group-hover:scale-125"
+                  }`} />
+                  
+                  <div className="flex justify-between items-start mb-2 relative z-10">
+                    <Icon className={`w-5 h-5 ${
+                      isSelected ? (isPremium ? "text-amber-600" : "text-saffron") : (isPremium ? "text-amber-500" : "text-slate-400")
+                    }`} />
+                    <div className={`font-black text-[15px] ${
+                      isSelected ? (isPremium ? "text-amber-600" : "text-saffron") : (isPremium ? "text-amber-800" : "text-slate-900")
+                    }`}>
+                      ₹{cat.price}
+                    </div>
+                  </div>
+
+                  <div className={`font-bold text-[13px] relative z-10 leading-tight mb-0.5 ${isPremium ? "text-amber-900" : "text-slate-800"}`}>
+                    {tStr(cat.name)}
+                  </div>
+                  <div className={`text-[11px] relative z-10 leading-snug ${isPremium ? "text-amber-700/90 font-medium" : "text-slate-500"}`}>
+                    {tStr(cat.desc)}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Number of persons */}
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-2">{tStr("How many devotees are visiting?")}</label>
+          <div className="flex items-center gap-3">
+            {[1, 2, 3, 4, 5, 6].map(num => (
+              <button
+                key={num}
+                onClick={() => update("persons", num)}
+                className={`w-12 h-12 rounded-xl text-lg font-bold transition-all ${
+                  details.persons === num
+                    ? "bg-saffron text-white shadow-md border border-saffron"
+                    : "bg-slate-50 text-slate-700 border border-slate-200 hover:border-saffron/50"
+                }`}
+              >
+                {num}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Name */}
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-2">{tStr("Primary Devotee Name")}</label>
+          <div className="relative">
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+            <input
+              type="text"
+              value={details.name}
+              onChange={e => update("name", e.target.value)}
+              placeholder={tStr("Enter full name")}
+              className={`w-full pl-10 pr-4 py-3 bg-slate-50 border rounded-xl outline-none focus:bg-white focus:border-saffron transition-all ${
+                errors?.name ? "border-rose-500 bg-rose-50" : "border-slate-200"
+              }`}
+            />
+          </div>
+          {errors?.name && <p className="text-xs text-rose-600 mt-1 font-medium">{errors.name}</p>}
+        </div>
+
+        {/* Phone */}
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-2">{tStr("Phone Number")}</label>
+          <div className="relative">
+            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+            <span className="absolute left-10 top-1/2 -translate-y-1/2 text-slate-500 font-medium">+91</span>
+            <input
+              type="tel"
+              value={details.phone}
+              onChange={e => update("phone", e.target.value.replace(/\D/g, '').slice(0, 10))}
+              placeholder="00000 00000"
+              className={`w-full pl-20 pr-4 py-3 bg-slate-50 border rounded-xl outline-none focus:bg-white focus:border-saffron transition-all tracking-wide ${
+                errors?.phone ? "border-rose-500 bg-rose-50" : "border-slate-200"
+              }`}
+            />
+          </div>
+          {errors?.phone && <p className="text-xs text-rose-600 mt-1 font-medium">{errors.phone}</p>}
+        </div>
+
+        {/* Aadhaar */}
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-2">{tStr("Aadhaar / Gov ID Number")}</label>
+          <div className="relative">
+            <FileDigit className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+            <input
+              type="text"
+              value={details.idNumber}
+              onChange={e => update("idNumber", e.target.value)}
+              placeholder={tStr("Enter ID number (required at entry)")}
+              className={`w-full pl-10 pr-4 py-3 bg-slate-50 border rounded-xl outline-none focus:bg-white focus:border-saffron transition-all tracking-wide ${
+                errors?.idNumber ? "border-rose-500 bg-rose-50" : "border-slate-200"
+              }`}
+            />
+          </div>
+          {errors?.idNumber && <p className="text-xs text-rose-600 mt-1 font-medium">{errors.idNumber}</p>}
+          <p className="text-xs text-slate-500 mt-1.5">{tStr("Must carry original ID during temple visit.")}</p>
+        </div>
+      </div>
+      </div>
+    </div>
+  );
+}
+
+=== src/features/booking/components/BookingSummary.tsx ===
+import { useTranslation } from "react-i18next";
+import { CreditCard, CheckCircle2, ShieldCheck, Lock } from "lucide-react";
+import { useState, useEffect } from "react";
+import { DARSHAN_CATEGORIES } from "@/routes/_app.booking.$slug";
+
+export function BookingSummary({ details, selectedDate, selectedTime, onPay, isProcessing }: any) {
+  const { t: tStr } = useTranslation();
+  
+  const category = DARSHAN_CATEGORIES.find(c => c.id === details.categoryId) || DARSHAN_CATEGORIES[1];
+  const ticketPrice = category.price;
+  const total = details.persons * ticketPrice;
+  const [loadingText, setLoadingText] = useState(() => tStr("Initiating secure connection..."));
+
+  useEffect(() => {
+    if (isProcessing) {
+      const timers = [
+        setTimeout(() => setLoadingText(tStr("Authenticating payment...")), 800),
+        setTimeout(() => setLoadingText(tStr("Verifying with bank...")), 1800),
+        setTimeout(() => setLoadingText(tStr("Confirming transaction...")), 2800),
+      ];
+      return () => timers.forEach(clearTimeout);
+    }
+  }, [isProcessing, tStr]);
+
+  if (isProcessing) {
+    return (
+      <div className="bg-white border border-slate-200/60 rounded-3xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.06)] relative overflow-hidden flex flex-col items-center justify-center text-center min-h-[400px]">
+        {/* Background ambient glow */}
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-50/50 to-transparent pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-500/5 rounded-full blur-[60px] pointer-events-none" />
+        
+        {/* Modern Loader */}
+        <div className="relative z-10 mb-8">
+          <div className="w-20 h-20 relative">
+            <style>{`
+              @keyframes dash {
+                0% { stroke-dasharray: 1, 300; stroke-dashoffset: 0; }
+                50% { stroke-dasharray: 150, 300; stroke-dashoffset: -40; }
+                100% { stroke-dasharray: 150, 300; stroke-dashoffset: -280; }
+              }
+            `}</style>
+            <svg className="w-full h-full animate-[spin_2s_linear_infinite]" viewBox="0 0 100 100">
+              <circle
+                cx="50"
+                cy="50"
+                r="46"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="8"
+                className="text-slate-100"
+              />
+              <circle
+                cx="50"
+                cy="50"
+                r="46"
+                fill="none"
+                stroke="url(#gradient)"
+                strokeWidth="8"
+                strokeLinecap="round"
+                className="text-blue-600 animate-[dash_1.5s_ease-in-out_infinite]"
+              />
+              <defs>
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#3b82f6" />
+                  <stop offset="100%" stopColor="#2dd4bf" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Lock className="w-6 h-6 text-blue-500 animate-pulse" />
+            </div>
+          </div>
+        </div>
+        
+        <h3 className="font-serif text-xl font-bold text-slate-900 mb-2 relative z-10">
+          {tStr("Processing Payment")}
+        </h3>
+        
+        {/* Dynamic Loading Text */}
+        <div className="h-6 relative z-10 mb-6 overflow-hidden flex items-center justify-center">
+          <p key={loadingText} className="text-sm font-medium text-slate-500 animate-in slide-in-from-bottom-2 fade-in duration-300">
+            {loadingText}
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2 text-xs font-semibold text-slate-600 bg-slate-50 border border-slate-100 px-4 py-2 rounded-full relative z-10 shadow-sm">
+          <ShieldCheck className="w-4 h-4 text-emerald-500" /> 
+          {tStr("100% Secure & Encrypted")}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white border border-slate-200/60 rounded-3xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.06)] relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none" />
+      
+      <div className="relative z-10">
+        <h3 className="font-serif text-lg font-bold text-slate-900 mb-4">{tStr("Booking Summary")}</h3>
+        
+        <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4 mb-4 space-y-3">
+          <div className="flex justify-between text-sm">
+            <span className="text-slate-500 font-medium">{tStr("Date & Time")}</span>
+            <span className="font-bold text-slate-800 text-right">
+              {selectedDate ? selectedDate.toLocaleDateString("en-IN") : ""}
+              <br />
+              {selectedTime}
+            </span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-slate-500 font-medium">{tStr("Ticket Type")}</span>
+            <span className="font-bold text-saffron">{tStr(category.name)} (₹{ticketPrice})</span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-slate-500 font-medium">{tStr("Devotees")}</span>
+            <span className="font-bold text-slate-800">{details.persons} {tStr("Persons")}</span>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between py-3 border-t border-slate-200 border-dashed mb-6">
+          <span className="text-base font-bold text-slate-900">{tStr("Total Payable")}</span>
+          <span className="text-2xl font-black text-slate-900">₹{total}</span>
+        </div>
+
+        <button
+          onClick={onPay}
+          className="w-full relative group inline-flex items-center justify-center gap-2.5 text-base font-bold text-white px-6 py-4 rounded-full transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_25px_rgba(16,185,129,0.4)] bg-gradient-to-r from-emerald-500 to-teal-500 overflow-hidden"
+        >
+          <span className="absolute inset-0 rounded-full border-2 border-emerald-400 animate-[ping_2s_ease-in-out_infinite] opacity-40 pointer-events-none" />
+          <CreditCard className="w-5 h-5 relative z-10" />
+          <span className="relative z-10 tracking-wide">{tStr("Pay securely")}</span>
+        </button>
+
+        <div className="mt-4 flex items-center justify-center gap-1.5 text-xs font-semibold text-slate-500 uppercase tracking-widest">
+          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> {tStr("HR&CE Official Booking")}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+=== src/features/booking/components/BookingSuccess.tsx ===
+import { useTranslation } from "react-i18next";
+import { Link } from "@tanstack/react-router";
+import { CheckCircle2, Download, ArrowLeft } from "lucide-react";
+import QRCode from "react-qr-code";
+
+export function BookingSuccess({ t, details, selectedDate, selectedTime }: any) {
+  const { t: tStr } = useTranslation();
+  const ticketId = `TN-HRCE-${Math.floor(Math.random() * 1000000).toString().padStart(6, '0')}`;
+
+  return (
+    <div className="max-w-md mx-auto animate-in zoom-in-95 duration-500">
+      <div className="bg-white rounded-3xl p-8 shadow-[0_20px_60px_rgb(0,0,0,0.08)] border border-slate-100 text-center relative overflow-hidden">
+        <div className="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-emerald-400 to-teal-500" />
+        
+        <div className="w-20 h-20 bg-emerald-100 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
+          <CheckCircle2 className="w-10 h-10" />
+        </div>
+        
+        <h2 className="font-serif text-2xl font-bold text-slate-900 mb-2">{tStr("Booking Confirmed!")}</h2>
+        <p className="text-slate-500 text-sm mb-8">{tStr("Your Special Darshan tickets have been generated successfully.")}</p>
+
+        {/* E-Ticket */}
+        <div className="bg-slate-50 border border-slate-200 border-dashed rounded-2xl p-6 mb-8 relative">
+          <div className="absolute -left-3 top-1/2 w-6 h-6 bg-white rounded-full border-r border-slate-200" />
+          <div className="absolute -right-3 top-1/2 w-6 h-6 bg-white rounded-full border-l border-slate-200" />
+          
+          <div className="flex flex-col items-center justify-center mb-4 pb-4 border-b border-slate-200 border-dashed">
+            <div className="bg-white p-2.5 rounded-xl mb-3 shadow-sm border border-slate-100">
+              <QRCode value={ticketId} size={100} fgColor="#1e293b" />
+            </div>
+            <div className="font-mono text-xs font-bold tracking-widest text-slate-500">{ticketId}</div>
+          </div>
+          
+          <div className="text-left space-y-3">
+            <div>
+              <div className="text-[10px] uppercase text-slate-400 font-bold tracking-widest">{tStr("Temple")}</div>
+              <div className="font-bold text-slate-800">{tStr(t.name)}</div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <div className="text-[10px] uppercase text-slate-400 font-bold tracking-widest">{tStr("Date & Time")}</div>
+                <div className="font-bold text-slate-800">{selectedDate.toLocaleDateString("en-IN")}, {selectedTime}</div>
+              </div>
+              <div>
+                <div className="text-[10px] uppercase text-slate-400 font-bold tracking-widest">{tStr("Devotees")}</div>
+                <div className="font-bold text-slate-800">{details.persons} {tStr("Persons")}</div>
+              </div>
+            </div>
+            <div>
+              <div className="text-[10px] uppercase text-slate-400 font-bold tracking-widest">{tStr("Primary ID")}</div>
+              <div className="font-bold text-slate-800 uppercase">{details.name} ({tStr("ID:")} {details.idNumber.slice(-4).padStart(details.idNumber.length, '*')})</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <button className="w-full flex items-center justify-center gap-2 bg-slate-900 text-white font-bold py-3.5 rounded-xl hover:bg-slate-800 transition-colors">
+            <Download className="w-4 h-4" /> {tStr("Download E-Ticket")}
+          </button>
+          <Link to="/temple/$slug" params={{ slug: t.slug }} className="w-full flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 font-bold py-3.5 rounded-xl hover:bg-slate-50 transition-colors">
+            <ArrowLeft className="w-4 h-4" /> {tStr("Back to Temple")}
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+=== src/features/booking/components/UpcomingEvents.tsx ===
+import { useTranslation } from "react-i18next";
+import { CalendarDays, Sparkles } from "lucide-react";
+import { getUpcomingEvents } from "@/data/events";
+
+export function UpcomingEvents({ slug }: { slug: string }) {
+  const { t: tStr } = useTranslation();
+  const events = getUpcomingEvents(slug);
+
+  if (events.length === 0) return null;
+
+  return (
+    <div className="bg-white/70 backdrop-blur-2xl border border-white/80 rounded-[32px] p-6 shadow-[0_8px_40px_rgb(0,0,0,0.04)] relative overflow-hidden h-full">
+      <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent pointer-events-none" />
+      <div className="absolute top-0 right-0 w-48 h-48 bg-amber-400/10 rounded-full blur-[60px] -mr-10 -mt-10 pointer-events-none" />
+      
+      <div className="relative z-10">
+        <h3 className="font-serif text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+          <CalendarDays className="w-5 h-5 text-amber-500" />
+          {tStr("Upcoming Temple Events")}
+        </h3>
+
+        <div className="space-y-4">
+          {events.map((event, i) => (
+            <div key={i} className={`p-5 rounded-[20px] border transition-all hover:shadow-md hover:-translate-y-1 ${event.isMajor ? "bg-gradient-to-br from-amber-50/80 to-orange-50/30 border-amber-200/60 shadow-sm" : "bg-white/60 backdrop-blur-md border-white/80"}`}>
+              <div className="mb-2">
+                <div className="font-bold text-slate-800 text-sm flex items-center gap-1.5 mb-2">
+                  {tStr(event.title)}
+                  {event.isMajor && <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0" />}
+                </div>
+                <div className="inline-block text-[10px] font-bold uppercase tracking-widest text-saffron bg-white border border-amber-100 px-2 py-0.5 rounded-full shadow-sm">
+                  {tStr(event.date)}
+                </div>
+              </div>
+              <p className="text-xs text-slate-600 font-medium leading-relaxed">
+                {tStr(event.description)}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
