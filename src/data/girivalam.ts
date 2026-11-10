@@ -2,56 +2,59 @@
  * Girivalam route data — the 14 km barefoot circumambulation of Arunachala hill.
  *
  * Devotees start at the Arunachaleswarar temple and walk clockwise, keeping the
- * hill on their right, passing the eight Ashta Lingams that stand at the eight
- * compass points. Cumulative distances are the figures the temple publishes for
- * pilgrims; the markers sit at each lingam's true compass bearing, so the ring
- * is drawn evenly while the labels carry the real walking distances.
+ * hill on their right, passing the eight Ashta Lingams named for the eight
+ * compass points.
  *
- * All crowd, facility and weather figures are simulated for the demo.
+ * GEOMETRY LIVES IN `girivalam-route.ts`, not here. Every map position in this
+ * file is read from the generated `girivalam-route.json`: surveyed
+ * OpenStreetMap coordinates for the temple and for the Indra, Yama, Niruthi,
+ * Varuna and Kubera lingams, and a point interpolated along the real routed
+ * road for Agni, Vayu and Esanya, which OSM has no node for. Each lingam below
+ * carries `positionVerified` so the UI can tell the two apart.
+ *
+ * All crowd, facility, wait-time and weather figures in this file are SIMULATED
+ * demo data. They are not live measurements and must never be presented as such.
  */
 
 import { severityFor, type Severity } from "./operations";
+import {
+  geometryById,
+  TEMPLE_POSITION,
+  bearingBetween,
+  pointAtKm,
+  positionAtKm as routePositionAtKm,
+  routedKmForPublishedKm,
+  stopById,
+  type LatLng,
+} from "./girivalam-route";
 
+export type { LatLng };
+
+/** The distance the temple publishes for pilgrims. */
 export const GIRIVALAM_DISTANCE_KM = 14;
 
 /* ----------------------------------------------------------------- geography */
 
-export type LatLng = [number, number];
-
-/** Centre of Arunachala hill — the ring is drawn around this point. */
-export const ARUNACHALA_CENTER: LatLng = [12.23, 79.062];
+/**
+ * The Arunachala summit — OpenStreetMap node/681291682, tagged `natural=peak`.
+ * Used only to park the hill label and to decide which way marker labels hang;
+ * no route geometry is derived from it.
+ */
+export const ARUNACHALA_CENTER: LatLng = [12.2415011, 79.0573363];
 export const ARUNACHALA_HEIGHT_FT = 2668;
 
-/** Arulmigu Arunachaleswarar (Annamalaiyar) Temple — the start and end point. */
-export const TEMPLE_LOCATION: LatLng = [12.2319, 79.0677];
+/** Arunachaleswarar Temple — start and end of the walk (OpenStreetMap way/91456713). */
+export const TEMPLE_LOCATION: LatLng = TEMPLE_POSITION;
 
-/** Ring radius in degrees: 14 km circumference → ~2.23 km radius. */
-const R_LAT = 2.23 / 111.32;
-const R_LNG = 2.23 / (111.32 * Math.cos((12.23 * Math.PI) / 180));
+/**
+ * Kilometres walked on the published 14 km scale → the real position on the
+ * routed road. The scale conversion keeps the walker dot pinned to the lingam
+ * markers rather than drifting ahead of them.
+ */
+export const positionAtKm = (km: number): LatLng => routePositionAtKm(routedKmForPublishedKm(km));
 
-/** Compass bearing (0 = North, clockwise) → a point on the route ring. */
-export function pointAtBearing(bearingDeg: number, scale = 1): LatLng {
-  const b = (bearingDeg * Math.PI) / 180;
-  return [
-    ARUNACHALA_CENTER[0] + R_LAT * scale * Math.cos(b),
-    ARUNACHALA_CENTER[1] + R_LNG * scale * Math.sin(b),
-  ];
-}
-
-/** Where on the ring the walk begins — the point nearest the temple. */
-export const START_BEARING = (() => {
-  const dLat = (TEMPLE_LOCATION[0] - ARUNACHALA_CENTER[0]) / R_LAT;
-  const dLng = (TEMPLE_LOCATION[1] - ARUNACHALA_CENTER[1]) / R_LNG;
-  const deg = (Math.atan2(dLng, dLat) * 180) / Math.PI;
-  return (deg + 360) % 360;
-})();
-
-/** Kilometres walked → bearing on the ring. */
-export const bearingForKm = (km: number) =>
-  (START_BEARING + (km / GIRIVALAM_DISTANCE_KM) * 360) % 360;
-
-/** Kilometres walked → a map position on the route. */
-export const positionAtKm = (km: number): LatLng => pointAtBearing(bearingForKm(km));
+/** Kilometres walked → the compass direction of travel at that point. */
+export const bearingForKm = (km: number): number => pointAtKm(routedKmForPublishedKm(km)).bearing;
 
 /* ------------------------------------------------------------- ashta lingams */
 
@@ -62,9 +65,18 @@ export interface Lingam {
   name: string;
   tamilName: string;
   direction: string;
-  /** Compass bearing in degrees, 0 = North, increasing clockwise. */
+  /** Nominal compass bearing of the direction the lingam is named for. */
   bearing: number;
+  /** Real map position, from `girivalam-route.json`. */
   position: LatLng;
+  /** True when the position comes from a surveyed OpenStreetMap node/way. */
+  positionVerified: boolean;
+  /** Where the position came from, shown in the marker popup. */
+  positionSource: string;
+  /** `node/123` or `way/123` on openstreetmap.org, or null when unsurveyed. */
+  osm: string | null;
+  /** Distance from the temple measured along the routed line, in km. */
+  measuredKm: number;
   /** Presiding deity / guardian of that direction. */
   guardian: string;
   /** What devotees traditionally pray for here. */
@@ -82,7 +94,13 @@ export interface Lingam {
   note: string;
 }
 
-const lingamSeed: Omit<Lingam, "position">[] = [
+/** Everything about a lingam except where it is — positions come from the route file. */
+type LingamSeed = Omit<
+  Lingam,
+  "position" | "positionVerified" | "positionSource" | "osm" | "measuredKm"
+>;
+
+const lingamSeed: LingamSeed[] = [
   {
     id: "indra",
     order: 1,
@@ -123,7 +141,7 @@ const lingamSeed: Omit<Lingam, "position">[] = [
     name: "Yama Lingam",
     tamilName: "யம லிங்கம்",
     direction: "South",
-    bearing: 180,
+    bearing: 195,
     guardian: "Yama — lord of dharma",
     blessing: "Release from the fear of death",
     crowd: 640,
@@ -221,13 +239,20 @@ const lingamSeed: Omit<Lingam, "position">[] = [
   },
 ];
 
-export const ashtaLingamStatus: Lingam[] = lingamSeed.map((l) => ({
-  ...l,
-  position: pointAtBearing(l.bearing),
-}));
+export const ashtaLingamStatus: Lingam[] = lingamSeed.map((l) => {
+  const stop = stopById(l.id);
+  if (!stop) throw new Error(`girivalam-route.json has no stop for "${l.id}"`);
+  return {
+    ...l,
+    position: stop.position,
+    positionVerified: stop.verified,
+    positionSource: stop.positionSource,
+    osm: stop.osm,
+    measuredKm: stop.measuredKm,
+  };
+});
 
-export const lingamSeverity = (l: Lingam): Severity =>
-  severityFor((l.crowd / l.capacity) * 100);
+export const lingamSeverity = (l: Lingam): Severity => severityFor((l.crowd / l.capacity) * 100);
 
 /* ----------------------------------------------------------------- segments */
 
@@ -241,8 +266,9 @@ export interface RouteSegment {
   walkers: number;
   capacity: number;
   lengthKm: number;
-  /** Average walking pace on the segment, km/h. */
+  /** Average walking pace on the segment, km/h. SIMULATED. */
   paceKmph: number;
+  /** Compass direction of travel where the leg starts / ends. */
   startBearing: number;
   endBearing: number;
 }
@@ -263,31 +289,30 @@ const SEGMENT_SEED: { from: string; to: string; walkers: number }[] = [
 const nameOf = (id: string) =>
   id === "temple" ? "Arunachaleswarar Temple" : ashtaLingamStatus.find((l) => l.id === id)!.name;
 
-const kmOf = (id: string, end = false) =>
-  id === "temple"
-    ? end
-      ? GIRIVALAM_DISTANCE_KM
-      : 0
-    : ashtaLingamStatus.find((l) => l.id === id)!.cumulativeKm;
-
 export const routeSegments: RouteSegment[] = SEGMENT_SEED.map((s, i) => {
-  const startKm = kmOf(s.from);
-  const endKm = kmOf(s.to, true);
-  const lengthKm = Math.round((endKm - startKm) * 10) / 10;
+  const id = `${s.from}-${s.to}`;
+  // Length and bearings come from the routed road line, not from the ring.
+  const geo = geometryById(id);
+  if (!geo) throw new Error(`girivalam-route.json has no geometry for leg "${id}"`);
   return {
-    id: `${s.from}-${s.to}`,
+    id,
     fromId: s.from,
     toId: s.to,
     from: nameOf(s.from),
     to: nameOf(s.to),
     walkers: s.walkers,
     capacity: 900,
-    lengthKm,
+    lengthKm: Math.round(geo.lengthKm * 10) / 10,
     paceKmph: [2.8, 2.6, 2.4, 3.2, 3.6, 3.4, 3.8, 3.5, 3.0][i],
-    startBearing: bearingForKm(startKm),
-    endBearing: bearingForKm(endKm),
+    startBearing: bearingBetween(geo.path[0], geo.path[1]),
+    endBearing: bearingBetween(geo.path[geo.path.length - 2], geo.path[geo.path.length - 1]),
   };
 });
+
+/** The crowd level on each leg, keyed by the geometry id the map draws. */
+export const segmentSeverityById: Record<string, Severity> = Object.fromEntries(
+  routeSegments.map((s) => [s.id, severityFor((s.walkers / s.capacity) * 100)]),
+);
 
 export const segmentSeverity = (s: RouteSegment): Severity =>
   severityFor((s.walkers / s.capacity) * 100);

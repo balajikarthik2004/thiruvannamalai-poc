@@ -54,7 +54,7 @@ function Dashboard() {
   }, [q, state, district, activeFilter]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#fdf8f6] pb-10">
+    <div className="flex flex-col min-h-screen bg-[#FAF6F0] pb-10">
       <DashboardTopNav 
         state={state} setState={setState}
         stateOpen={stateOpen} setStateOpen={setStateOpen}

@@ -15,7 +15,7 @@ import { SidebarNavItem } from "./SidebarNavItem";
 import { TopBar } from "./TopBar";
 import { TopBarSlotProvider } from "./topbar-slot";
 import { MAIN_NAV, MOBILE_BOTTOM_NAV, type NavEntry } from "./nav-config";
-import omLogo from "../../assets/om_logo.png";
+import omLogo from "../../assets/logo.png";
 import sidebarArt from "../../assets/sidebar.png";
 import { CartWidget } from "@/features/store/components/CartWidget";
 
@@ -75,14 +75,14 @@ export function AppShell() {
             <img
               src={omLogo}
               alt="Om"
-              className="h-9 w-9 shrink-0 object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
+              className="h-10 w-auto shrink-0 object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
             />
             <div className="flex min-w-0 flex-col">
               <span className="font-sans text-[17px] font-bold leading-tight tracking-normal text-white">
                 OMG Devotee
               </span>
-              <span className="mt-0.5 text-[12px] font-semibold uppercase tracking-[0.14em] text-emerald-100/70">
-                {t("DEVI")}
+              <span className="mt-0.5 text-[9.5px] font-semibold uppercase tracking-[0.16em] text-[#C48437]">
+                {t("SMART TEMPLE EXPERIENCE")}
               </span>
             </div>
           </Link>
@@ -135,7 +135,7 @@ export function AppShell() {
   };
 
   return (
-    <div className="flex min-h-screen w-full bg-background">
+    <div className="flex min-h-screen w-full bg-[#FAF6F0]">
       {/* Desktop rail */}
       <aside
         aria-label={t("Sidebar")}

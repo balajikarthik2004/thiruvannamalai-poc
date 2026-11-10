@@ -26,19 +26,19 @@ function StoreIndex() {
   const count = (st: string) => (st === "All" ? bySearch.length : bySearch.filter((s) => s.state === st).length);
 
   return (
-    <div className="min-h-screen bg-[#fdf8f6] pb-10">
+    <div className="min-h-screen bg-[#FAF6F0] pb-10">
       {/* Header banner */}
       <header className="relative overflow-hidden">
         <div className="absolute inset-y-0 right-0 w-full md:w-2/5 pointer-events-none" aria-hidden>
           <img src={HERO} alt="" className="w-full h-full object-cover object-[center_42%] opacity-40 md:opacity-100" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#fdf8f6] via-[#fdf8f6]/10 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#fdf8f6] to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#FAF6F0] via-[#FAF6F0]/10 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#FAF6F0] to-transparent" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 lg:px-8 pt-8 pb-10">
-          <span className="inline-flex items-center gap-2 rounded-full bg-rose-50 border border-rose-100 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-saffron">
+          <span className="inline-flex items-center gap-2 rounded-full bg-[#FAF6F0] border border-[#E8E2D5] px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-[#C48437]">
             <ShoppingBag className="w-4 h-4" /> {t("Official Temple Stores")}
           </span>
-          <h1 className="font-serif text-3xl lg:text-4xl font-bold text-slate-900 mt-3">{t("Temple Stores")}</h1>
+          <h1 className="font-serif text-3xl lg:text-4xl font-bold text-[#0B2F25] mt-3">{t("Temple Stores")}</h1>
           <p className="text-sm text-slate-600 mt-2 max-w-md">
             {t("Purchase authentic prasadam, sacred idols, and merchandise directly from temple premises.")}
           </p>
@@ -50,7 +50,7 @@ function StoreIndex() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={t("Search for a temple store...")}
-              className="w-full h-12 pl-11 pr-4 rounded-full border border-rose-100 bg-white text-sm outline-none shadow-sm focus:border-saffron focus:ring-4 focus:ring-saffron/10"
+              className="w-full h-12 pl-11 pr-4 rounded-full border border-[#E8E2D5] bg-white text-sm outline-none shadow-sm focus:border-[#0B2F25] focus:ring-4 focus:ring-[#0B2F25]/10"
             />
           </label>
         </div>
@@ -68,7 +68,7 @@ function StoreIndex() {
                 aria-selected={active}
                 onClick={() => setState(s)}
                 className={`shrink-0 h-9 px-4 rounded-full text-sm font-semibold border transition-all ${
-                  active ? "bg-saffron text-white border-saffron shadow-md shadow-saffron/20" : "bg-white text-slate-600 border-rose-100 hover:border-saffron/50 hover:text-saffron"
+                  active ? "bg-[#0B2F25] text-white border-[#0B2F25] shadow-xs" : "bg-white text-slate-600 border-[#E8E2D5] hover:border-[#0B2F25]/40 hover:text-[#0B2F25]"
                 }`}
               >
                 {s === "All" ? t("All Stores") : t(s)} ({count(s)})

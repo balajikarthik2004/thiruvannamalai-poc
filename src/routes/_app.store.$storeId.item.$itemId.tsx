@@ -35,12 +35,12 @@ function ItemDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fdf8f6] pb-20">
+    <div className="min-h-screen bg-[#FAF6F0] pb-20">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-8">
         <Link 
           to="/store/$storeId"
           params={{ storeId: store.id }}
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-600 hover:text-saffron bg-white border border-rose-100 rounded-full px-3 py-1.5 shadow-sm mb-8 w-fit transition-colors"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-600 hover:text-[#0B2F25] bg-white border border-[#E8E2D5] rounded-full px-3 py-1.5 shadow-xs mb-8 w-fit transition-colors"
         >
           <ArrowLeft className="w-4 h-4" /> {t("Back to ")}{t(store.name)}
         </Link>
@@ -48,7 +48,7 @@ function ItemDetail() {
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Image Gallery */}
           <div className="space-y-4">
-            <div className="aspect-square rounded-3xl overflow-hidden bg-rose-50 border border-rose-100 shadow-sm">
+            <div className="aspect-square rounded-3xl overflow-hidden bg-[#FAF6F0] border border-[#E8E2D5] shadow-xs">
               <ProductImage
                 product={product}
                 eager
@@ -60,28 +60,28 @@ function ItemDetail() {
 
           {/* Product Info */}
           <div className="flex flex-col">
-            <Badge className="w-fit mb-4 bg-rose-50 text-saffron border border-rose-100 hover:bg-rose-100">{t(product.category)}</Badge>
-            <h1 className="font-serif text-3xl lg:text-4xl font-bold text-slate-900 mb-4 leading-tight">{t(product.name)}</h1>
-            <div className="text-3xl font-black text-saffron mb-6 tabular-nums">{formatINR(product.price)}</div>
+            <Badge className="w-fit mb-4 bg-[#FAF6F0] text-[#0B2F25] border border-[#E8E2D5] hover:bg-[#FAF6F0]">{t(product.category)}</Badge>
+            <h1 className="font-serif text-3xl lg:text-4xl font-bold text-[#0B2F25] mb-4 leading-tight">{t(product.name)}</h1>
+            <div className="text-3xl font-black text-[#0B2F25] mb-6 tabular-nums">{formatINR(product.price)}</div>
             
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
               {t(product.description)}
             </p>
 
-            <div className="bg-white border border-rose-100 rounded-3xl p-6 mb-8 space-y-4 shadow-sm">
+            <div className="bg-white border border-[#E8E2D5] rounded-3xl p-6 mb-8 space-y-4 shadow-xs">
               <div className="flex items-center justify-between">
                 <span className="font-medium text-foreground">{t("Quantity")}</span>
                 <div className="flex items-center gap-4 bg-muted/50 rounded-lg p-1">
                   <button 
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-8 h-8 flex items-center justify-center rounded-md bg-background shadow-sm hover:bg-muted text-foreground transition-colors"
+                    className="w-8 h-8 flex items-center justify-center rounded-md bg-background shadow-xs hover:bg-muted text-foreground transition-colors"
                   >
                     -
                   </button>
                   <span className="font-semibold w-4 text-center">{quantity}</span>
                   <button 
                     onClick={() => setQuantity(quantity + 1)}
-                    className="w-8 h-8 flex items-center justify-center rounded-md bg-background shadow-sm hover:bg-muted text-foreground transition-colors"
+                    className="w-8 h-8 flex items-center justify-center rounded-md bg-background shadow-xs hover:bg-muted text-foreground transition-colors"
                   >
                     +
                   </button>
@@ -91,7 +91,7 @@ function ItemDetail() {
               <div className="pt-4 border-t border-border/50">
                 <Button 
                   size="lg" 
-                  className="w-full text-base font-bold h-14 rounded-full bg-saffron hover:brightness-95 text-white shadow-lg shadow-saffron/25"
+                  className="w-full text-base font-bold h-14 rounded-full bg-[#0B2F25] hover:bg-[#073C2C] text-white shadow-md shadow-[#0B2F25]/20"
                   onClick={handleAddToCart}
                 >
                   <ShoppingCart className="w-5 h-5 mr-2" /> {t("Add to Cart — ")}{formatINR(product.price * quantity)}
@@ -101,15 +101,15 @@ function ItemDetail() {
 
             {/* Features list */}
             <div className="grid sm:grid-cols-2 gap-4 mt-auto">
-              <div className="flex items-start gap-3 p-4 rounded-2xl bg-white border border-rose-100">
-                <ShieldCheck className="w-6 h-6 text-saffron shrink-0" />
+              <div className="flex items-start gap-3 p-4 rounded-2xl bg-white border border-[#E8E2D5]">
+                <ShieldCheck className="w-6 h-6 text-[#C48437] shrink-0" />
                 <div>
                   <h4 className="font-medium text-foreground text-sm">{t("Authentic Product")}</h4>
                   <p className="text-xs text-muted-foreground mt-0.5">{t("Sourced directly from temple.")}</p>
                 </div>
               </div>
-              <div className="flex items-start gap-3 p-4 rounded-2xl bg-white border border-rose-100">
-                <Truck className="w-6 h-6 text-saffron shrink-0" />
+              <div className="flex items-start gap-3 p-4 rounded-2xl bg-white border border-[#E8E2D5]">
+                <Truck className="w-6 h-6 text-[#C48437] shrink-0" />
                 <div>
                   <h4 className="font-medium text-foreground text-sm">{t("Temple Pickup")}</h4>
                   <p className="text-xs text-muted-foreground mt-0.5">{t("Available for this item.")}</p>

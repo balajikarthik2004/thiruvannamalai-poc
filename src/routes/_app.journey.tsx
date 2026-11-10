@@ -59,7 +59,7 @@ function MyJourney() {
           <span className="inline-flex items-center gap-2 rounded-full border border-[#e0cf9a] bg-[#fdf6e3] px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-[#b8860b]">
             <Award className="h-4 w-4" /> {t("My Journey")}
           </span>
-          <h1 className="mt-3 font-serif text-3xl font-bold text-[#14532d]">
+          <h1 className="mt-3 font-serif text-3xl font-bold text-[#0B2F25]">
             {t("Your pilgrimage so far")}
           </h1>
           <p className="mt-2 max-w-xl text-sm text-slate-600">
@@ -79,20 +79,20 @@ function MyJourney() {
         {/* Girivalam in progress */}
         <section className="gv-card p-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <h2 className="flex items-center gap-2 font-serif text-lg font-bold text-[#14532d]">
-              <Mountain className="h-5 w-5 text-[#b8860b]" />
+            <h2 className="flex items-center gap-2 font-serif text-lg font-bold text-[#0B2F25]">
+              <Mountain className="h-5 w-5 text-[#C48437]" />
               {t("Girivalam in progress")}
             </h2>
             <Link
               to="/girivalam"
-              className="inline-flex items-center gap-1.5 rounded-full bg-[#14532d] px-4 py-2 text-xs font-bold text-white shadow-md transition-all hover:brightness-110"
+              className="inline-flex items-center gap-1.5 rounded-full bg-[#0B2F25] px-4 py-2 text-xs font-bold text-white shadow-md transition-all hover:bg-[#073C2C]"
             >
               {t("Open live monitor")} <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
 
           <div className="mt-3 flex items-baseline justify-between gap-3">
-            <span className="text-2xl font-black tabular-nums text-[#14532d]">
+            <span className="text-2xl font-black tabular-nums text-[#0B2F25]">
               {p.completedKm.toFixed(1)} km{" "}
               <span className="text-sm font-semibold text-slate-400">/ {GIRIVALAM_DISTANCE_KM} km</span>
             </span>
@@ -100,7 +100,7 @@ function MyJourney() {
           </div>
           <div className="mt-2.5 h-2.5 w-full overflow-hidden rounded-full bg-[#eae4d5]">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-[#217a4f] to-[#14532d]"
+              className="h-full rounded-full bg-gradient-to-r from-[#165B43] to-[#0B2F25]"
               style={{ width: `${p.percent}%` }}
             />
           </div>
@@ -113,8 +113,8 @@ function MyJourney() {
         <div className="grid gap-4 lg:grid-cols-2">
           {/* Past walks */}
           <section className="gv-card p-5">
-            <h2 className="mb-3 flex items-center gap-2 font-serif text-base font-bold text-[#14532d]">
-              <Footprints className="h-4.5 w-4.5 text-[#b8860b]" />
+            <h2 className="mb-3 flex items-center gap-2 font-serif text-base font-bold text-[#0B2F25]">
+              <Footprints className="h-4.5 w-4.5 text-[#C48437]" />
               {t("Past Girivalam walks")}
             </h2>
             <ul className="divide-y divide-[#f3eee2]">
@@ -129,7 +129,7 @@ function MyJourney() {
                   <span
                     className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-bold ${
                       w.completedKm >= GIRIVALAM_DISTANCE_KM
-                        ? "bg-emerald-100 text-emerald-800"
+                        ? "bg-emerald-100 text-[#0B2F25]"
                         : "bg-slate-100 text-slate-500"
                     }`}
                   >
@@ -142,8 +142,8 @@ function MyJourney() {
 
           {/* Darshan history */}
           <section className="gv-card p-5">
-            <h2 className="mb-3 flex items-center gap-2 font-serif text-base font-bold text-[#14532d]">
-              <Ticket className="h-4.5 w-4.5 text-[#b8860b]" />
+            <h2 className="mb-3 flex items-center gap-2 font-serif text-base font-bold text-[#0B2F25]">
+              <Ticket className="h-4.5 w-4.5 text-[#C48437]" />
               {t("Darshan history")}
             </h2>
             <ul className="divide-y divide-[#f3eee2]">
@@ -166,8 +166,8 @@ function MyJourney() {
 
         {/* Offerings */}
         <section className="gv-card p-5">
-          <h2 className="mb-3 flex items-center gap-2 font-serif text-base font-bold text-[#14532d]">
-            <Flame className="h-4.5 w-4.5 text-[#b8860b]" />
+          <h2 className="mb-3 flex items-center gap-2 font-serif text-base font-bold text-[#0B2F25]">
+            <Flame className="h-4.5 w-4.5 text-[#C48437]" />
             {t("Offerings & donations")}
           </h2>
           <ul className="divide-y divide-[#f3eee2]">
@@ -177,7 +177,7 @@ function MyJourney() {
                   <div className="truncate text-sm font-semibold text-slate-800">{t(o.cause)}</div>
                   <div className="text-xs text-slate-400">{o.date}</div>
                 </div>
-                <span className="shrink-0 text-sm font-bold tabular-nums text-[#217a4f]">
+                <span className="shrink-0 text-sm font-bold tabular-nums text-[#0B2F25]">
                   {formatINR(o.amount)}
                 </span>
               </li>
@@ -185,7 +185,7 @@ function MyJourney() {
           </ul>
           <Link
             to="/donations"
-            className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-[#217a4f] underline-offset-2 hover:underline"
+            className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-[#0B2F25] underline-offset-2 hover:underline"
           >
             {t("Make another offering")} <ArrowRight className="h-4 w-4" />
           </Link>
@@ -206,9 +206,9 @@ function Tile({
 }) {
   return (
     <div className="gv-card flex items-center gap-3 p-4">
-      <Icon className="h-7 w-7 shrink-0 text-[#b8860b]" strokeWidth={1.75} />
+      <Icon className="h-7 w-7 shrink-0 text-[#C48437]" strokeWidth={1.75} />
       <div className="min-w-0">
-        <div className="truncate text-xl font-black leading-tight text-[#14532d]">{value}</div>
+        <div className="truncate text-xl font-black leading-tight text-[#0B2F25]">{value}</div>
         <div className="truncate text-[11px] text-slate-500">{label}</div>
       </div>
     </div>

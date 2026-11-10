@@ -147,7 +147,7 @@ function HelpPage() {
           <span className="inline-flex items-center gap-2 rounded-full border border-[#e0cf9a] bg-[#fdf6e3] px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-[#b8860b]">
             <LifeBuoy className="h-4 w-4" /> {t("Help & Support")}
           </span>
-          <h1 className="mt-3 font-serif text-3xl font-bold text-[#14532d]">
+          <h1 className="mt-3 font-serif text-3xl font-bold text-[#0B2F25]">
             {t("We are here to help")}
           </h1>
           <p className="mt-2 max-w-xl text-sm text-slate-600">

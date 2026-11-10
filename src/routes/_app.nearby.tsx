@@ -42,7 +42,7 @@ function NearbyPage() {
           ))}
         </div>
 
-        <button className="mt-5 w-full rounded-full gradient-saffron text-white py-3 font-medium">🗺 Get directions</button>
+        <button className="mt-5 w-full rounded-full bg-[#0B2F25] hover:bg-[#073C2C] text-white py-3 font-medium transition-colors shadow-sm">🗺 Get directions</button>
       </div>
 
       <div className="mt-6">

@@ -65,12 +65,12 @@ function HeatmapPage() {
     : tStr("All gates moving well");
 
   return (
-    <div ref={rootRef} className={`bg-[#fdf8f6] ${isFullscreen ? "overflow-y-auto h-screen" : "min-h-screen"}`}>
+    <div ref={rootRef} className={`bg-[#FAF6F0] ${isFullscreen ? "overflow-y-auto h-screen" : "min-h-screen"}`}>
       <div className="max-w-[1500px] mx-auto px-4 lg:px-8 pt-6 pb-10 space-y-5">
         {/* Header */}
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl bg-rose-50 border border-rose-100 text-saffron flex items-center justify-center shrink-0">
+            <div className="w-11 h-11 rounded-xl bg-white border border-[#E8E2D5] text-[#C48437] flex items-center justify-center shrink-0">
               <Flame className="w-5 h-5" />
             </div>
             <div>

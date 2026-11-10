@@ -43,7 +43,7 @@ function ExploreTemples() {
           <span className="inline-flex items-center gap-2 rounded-full border border-[#e0cf9a] bg-[#fdf6e3] px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-[#b8860b]">
             <Compass className="h-4 w-4" /> {t("Explore Temples")}
           </span>
-          <h1 className="mt-3 font-serif text-3xl font-bold text-[#14532d]">
+          <h1 className="mt-3 font-serif text-3xl font-bold text-[#0B2F25]">
             {t("Temples on OMG Devotee")}
           </h1>
           <p className="mt-2 max-w-xl text-sm text-slate-600">
@@ -58,7 +58,7 @@ function ExploreTemples() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder={t("Search by temple, deity or district…")}
-              className="h-12 w-full rounded-full border border-[#e4ddcc] bg-white pl-11 pr-4 text-sm shadow-sm outline-none focus:border-[#c9a227] focus:ring-4 focus:ring-[#c9a227]/15"
+              className="h-12 w-full rounded-full border border-[#e4ddcc] bg-white pl-11 pr-4 text-sm shadow-sm outline-none focus:border-[#C48437] focus:ring-4 focus:ring-[#C48437]/15"
             />
           </label>
 
@@ -75,8 +75,8 @@ function ExploreTemples() {
                   onClick={() => setState(s)}
                   className={`h-9 shrink-0 rounded-full border px-4 text-sm font-semibold transition-all ${
                     active
-                      ? "border-[#14532d] bg-[#14532d] text-white shadow-md"
-                      : "border-[#e4ddcc] bg-white text-slate-600 hover:border-[#c9a227]/60 hover:text-[#14532d]"
+                      ? "border-[#0B2F25] bg-[#0B2F25] text-white shadow-md"
+                      : "border-[#e4ddcc] bg-white text-slate-600 hover:border-[#C48437]/60 hover:text-[#0B2F25]"
                   }`}
                 >
                   {s === "All" ? t("All States") : t(s)} ({count})
@@ -129,24 +129,24 @@ function TempleTile({ temple }: { temple: Temple }) {
         </span>
       </div>
       <div className="flex flex-1 flex-col p-4">
-        <h3 className="line-clamp-2 font-serif text-[15px] font-bold leading-snug text-slate-900 transition-colors group-hover:text-[#14532d]">
+        <h3 className="line-clamp-2 font-serif text-[15px] font-bold leading-snug text-slate-900 transition-colors group-hover:text-[#0B2F25]">
           {t(temple.name)}
         </h3>
         <div className="mt-1 flex items-center gap-1 text-xs text-slate-500">
-          <MapPin className="h-3.5 w-3.5 shrink-0 text-[#b8860b]" />
+          <MapPin className="h-3.5 w-3.5 shrink-0 text-[#C48437]" />
           <span className="truncate">
             {t(temple.city)}, {t(temple.state)}
           </span>
         </div>
         <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1.5 text-[11px] font-semibold text-slate-600">
           <span className="inline-flex items-center gap-1">
-            <Users className="h-3.5 w-3.5 text-[#217a4f]" /> {formatCount(temple.crowd)}
+            <Users className="h-3.5 w-3.5 text-[#165B43]" /> {formatCount(temple.crowd)}
           </span>
           <span className="inline-flex items-center gap-1">
-            <Clock className="h-3.5 w-3.5 text-[#217a4f]" /> {temple.waitMin} {t("min")}
+            <Clock className="h-3.5 w-3.5 text-[#165B43]" /> {temple.waitMin} {t("min")}
           </span>
         </div>
-        <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-bold text-[#217a4f]">
+        <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-bold text-[#0B2F25]">
           {t("View details")}
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
         </span>

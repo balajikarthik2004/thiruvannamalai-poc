@@ -42,15 +42,15 @@
   --color-sidebar-ring: hsl(var(--sidebar-ring));
 
   /* OMG Brand tokens mapped to utility names */
-  --color-saffron: #e32c26;
-  --color-gold: #283088;
+  --color-saffron: #D97706;
+  --color-gold: #C48437;
 
   --color-status-low: hsl(152 60% 40%);
   --color-status-mod: hsl(38 92% 50%);
   --color-status-high: hsl(0 72% 51%);
 
-  --color-ai-bg: #ecf0ff;
-  --color-user-bg: #fcfcfc;
+  --color-ai-bg: #FAF6F0;
+  --color-user-bg: #FFFFFF;
 
   /* OMG official fonts */
   --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
@@ -61,40 +61,41 @@
 :root {
   --radius: 0.5rem;
 
-  /* OMG Official exact color values */
-  --background: 0 0% 99%;
-  /* #fcfcfc */
-  --foreground: 234 75% 7%;
-  /* #0f172a deep navy */
+  /* Devotee Smart Temple Experience exact color values */
+  --background: 38 43% 96%;
+  /* #FAF6F0 warm sacred cream */
+  --foreground: 220 20% 14%;
+  /* #1E293B deep charcoal slate */
   --card: 0 0% 100%;
-  --card-foreground: 234 75% 7%;
+  --card-foreground: 220 20% 14%;
   --popover: 0 0% 100%;
-  --popover-foreground: 234 75% 7%;
-  --primary: 2 76% 52%;
-  /* #e32c26 OMG Red */
+  --popover-foreground: 220 20% 14%;
+  --primary: 165 62% 11%;
+  /* #0B2F25 Sacred Temple Forest Green */
   --primary-foreground: 0 0% 100%;
-  --secondary: 232 55% 35%;
-  /* #283088 OMG Blue */
+  --secondary: 35 60% 49%;
+  /* #C48437 Temple Gold */
   --secondary-foreground: 0 0% 100%;
-  --muted: 232 30% 95%;
-  --muted-foreground: 220 12% 46%;
-  --accent: 232 55% 35%;
+  --muted: 38 25% 93%;
+  --muted-foreground: 35 6% 45%;
+  --accent: 35 60% 49%;
   --accent-foreground: 0 0% 100%;
-  --destructive: 2 76% 52%;
+  --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 100%;
-  --border: 220 15% 90%;
-  --input: 220 15% 87%;
-  --ring: 2 76% 52%;
+  --border: 38 25% 88%;
+  /* #E8E2D5 Warm linen border */
+  --input: 38 25% 85%;
+  --ring: 165 62% 11%;
 
-  /* Sidebar uses OMG's deep navy #131a72 */
-  --sidebar-background: 233 90% 26%;
+  /* Sidebar uses sacred forest green #0B2F25 */
+  --sidebar-background: 165 62% 11%;
   --sidebar-foreground: 0 0% 100%;
-  --sidebar-primary: 2 76% 52%;
+  --sidebar-primary: 35 60% 49%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 233 90% 20%;
+  --sidebar-accent: 165 62% 16%;
   --sidebar-accent-foreground: 0 0% 100%;
-  --sidebar-border: 233 60% 22%;
-  --sidebar-ring: 2 76% 52%;
+  --sidebar-border: 165 40% 18%;
+  --sidebar-ring: 35 60% 49%;
 
   /* OMG exact brand hex values */
   --brand-red: #e32c26;
@@ -312,16 +313,16 @@
 --------------------------------------------------------------------------- */
 
 :root {
-  --gv-green-900: #0f3b26;
-  --gv-green-800: #14532d;
-  --gv-green-700: #1a6340;
+  --gv-green-900: #0B2F25;
+  --gv-green-800: #0D3B2E;
+  --gv-green-700: #165B43;
   --gv-green-600: #217a4f;
-  --gv-gold-600: #b8860b;
-  --gv-gold-500: #c9a227;
-  --gv-gold-400: #d9b640;
-  --gv-cream: #faf7ef;
-  --gv-cream-200: #f1ead9;
-  --gv-line: #e4ddcc;
+  --gv-gold-600: #C48437;
+  --gv-gold-500: #D97706;
+  --gv-gold-400: #F59E0B;
+  --gv-cream: #FAF6F0;
+  --gv-cream-200: #F3EBDD;
+  --gv-line: #E8E2D5;
 }
 
 @layer utilities {
@@ -364,43 +365,52 @@
   position: absolute;
   left: 0;
   top: 0;
-  width: 10px;
-  height: 10px;
-  margin: -5px 0 0 -5px;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
   border-radius: 9999px;
-  border: 2px solid #fff;
-  box-shadow: 0 1px 5px rgb(0 0 0 / 0.45);
+  border: 2.5px solid #ffffff;
+  box-shadow: 0 1.5px 5px rgba(0, 0, 0, 0.4);
   pointer-events: none;
+  z-index: 10;
 }
 
 .gv-pin-body {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.32rem 0.6rem;
-  border-radius: 0.6rem;
-  background: rgb(255 255 255 / 0.97);
-  box-shadow: 0 2px 12px rgb(0 0 0 / 0.3);
-  border: 1px solid rgb(255 255 255 / 0.9);
-  transition: box-shadow 0.15s ease;
+  gap: 0.45rem;
+  padding: 0.3rem 0.65rem 0.3rem 0.45rem;
+  border-radius: 0.65rem;
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
 }
 
 .gv-pin:hover .gv-pin-body {
-  box-shadow: 0 4px 18px rgb(0 0 0 / 0.38);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.38);
+  transform: scale(1.02);
 }
 
 .gv-pin-active .gv-pin-body {
-  border-color: var(--gv-gold-500);
-  box-shadow: 0 0 0 2px var(--gv-gold-500), 0 4px 18px rgb(0 0 0 / 0.38);
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 2px #f59e0b, 0 6px 20px rgba(0, 0, 0, 0.38);
 }
 
-.gv-pin-icon {
-  display: inline-flex;
-  color: var(--gv-green-800);
+.gv-pin-icon-img {
+  width: 22px;
+  height: 23px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
-.gv-pin-icon-gold {
-  color: var(--gv-gold-600);
+/* Inline gopuram for the temple pin, sized to match the lingam bitmap. */
+.gv-pin-icon-svg {
+  width: 22px;
+  height: 26px;
+  flex-shrink: 0;
+  display: block;
 }
 
 .gv-pin-text {
@@ -411,8 +421,9 @@
 
 .gv-pin-name {
   font-size: 11.5px;
-  font-weight: 800;
+  font-weight: 700;
   color: #0f172a;
+  letter-spacing: -0.01em;
 }
 
 .gv-pin-km {
@@ -422,18 +433,107 @@
 }
 
 .gv-pin-temple .gv-pin-body {
-  background: linear-gradient(180deg, #fffdf6, #fdf6e3);
-  border-color: var(--gv-gold-400);
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
 }
 
-/* The temple name is long; let it wrap rather than run across the hill. */
 .gv-pin-temple .gv-pin-text {
-  max-width: 126px;
+  max-width: 150px;
   white-space: normal;
 }
 
 .gv-pin-temple .gv-pin-name {
   line-height: 1.2;
+}
+
+/*
+ * Markers whose coordinate is estimated rather than surveyed: a hollow node
+ * and a "~" badge, so an approximate position never looks like a surveyed one.
+ */
+.gv-pin-node-approx {
+  background: #ffffff;
+  border-style: dashed;
+  border-width: 3px;
+  box-shadow: 0 1.5px 5px rgba(0, 0, 0, 0.35);
+}
+
+.gv-pin-approx {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  margin-left: 0.1rem;
+  border-radius: 9999px;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/*
+ * A pin with no room for its label is still a full-size click target: it grows
+ * slightly and takes a pointer cursor, and its name shows as a tooltip.
+ */
+.gv-pin-node-bare {
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.gv-pin-node-bare:hover {
+  transform: scale(1.25);
+}
+
+.gv-pin-node-active {
+  box-shadow:
+    0 0 0 3px #f59e0b,
+    0 1.5px 5px rgba(0, 0, 0, 0.4);
+}
+
+/* Narrow screens: shorter labels so eight pins still fit around the hill. */
+.gv-pin-compact .gv-pin-body {
+  padding: 0.22rem 0.45rem 0.22rem 0.3rem;
+  gap: 0.3rem;
+  border-radius: 0.55rem;
+}
+
+.gv-pin-compact .gv-pin-icon-img {
+  width: 16px;
+  height: 17px;
+}
+
+.gv-pin-compact .gv-pin-icon-svg {
+  width: 16px;
+  height: 19px;
+}
+
+.gv-pin-compact .gv-pin-name {
+  font-size: 10px;
+  max-width: 7.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gv-pin-compact .gv-pin-km {
+  font-size: 9px;
+}
+
+/* Marker popups: keep Leaflet's chrome in the page's own visual language. */
+.leaflet-popup-content-wrapper {
+  border-radius: 0.85rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+}
+
+.leaflet-popup-content {
+  margin: 0.7rem 0.8rem;
+  line-height: 1.35;
 }
 
 /* Direction-of-travel chevrons sitting on the route line. */

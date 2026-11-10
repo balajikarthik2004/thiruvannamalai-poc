@@ -35,7 +35,7 @@ export const ProductCard = memo(function ProductCard({ storeId, product }: Produ
   const lowStock = product.stock > 0 && product.stock <= 15;
 
   return (
-    <div className="group relative flex flex-col h-full bg-white border border-rose-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-lg hover:shadow-saffron/5 hover:border-saffron/40 hover:-translate-y-0.5 transition-all duration-300">
+    <div className="group relative flex flex-col h-full bg-white border border-[#E8E2D5] rounded-3xl overflow-hidden shadow-xs hover:shadow-lg hover:border-[#0B2F25]/40 hover:-translate-y-0.5 transition-all duration-300">
       <Link
         to="/store/$storeId/item/$itemId"
         params={{ storeId, itemId: product.id }}
@@ -58,10 +58,10 @@ export const ProductCard = memo(function ProductCard({ storeId, product }: Produ
         </div>
         <div className="flex flex-col flex-1 p-4 pb-3">
           <div className="flex justify-between items-start gap-2">
-            <h3 className="font-bold text-sm text-slate-900 leading-snug line-clamp-2 group-hover:text-saffron transition-colors">
+            <h3 className="font-bold text-sm text-slate-900 leading-snug line-clamp-2 group-hover:text-[#0B2F25] transition-colors">
               {t(product.name)}
             </h3>
-            <span className="font-black text-saffron text-base tabular-nums shrink-0">
+            <span className="font-black text-[#0B2F25] text-base tabular-nums shrink-0">
               {formatINR(product.price)}
             </span>
           </div>
@@ -75,8 +75,8 @@ export const ProductCard = memo(function ProductCard({ storeId, product }: Produ
           aria-label={`${t("Add to Cart")} — ${t(product.name)}`}
           className={`w-full h-10 rounded-full border text-sm font-bold flex items-center justify-center gap-1.5 transition-colors ${
             justAdded
-              ? "bg-emerald-500 border-emerald-500 text-white"
-              : "border-saffron/30 bg-rose-50 text-saffron hover:bg-saffron hover:text-white hover:border-saffron"
+              ? "bg-emerald-600 border-emerald-600 text-white"
+              : "border-[#0B2F25]/30 bg-[#FAF6F0] text-[#0B2F25] hover:bg-[#0B2F25] hover:text-white hover:border-[#0B2F25]"
           }`}
         >
           {justAdded ? (

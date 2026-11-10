@@ -64,21 +64,21 @@ function PlanPage() {
   const hero = HERO[t?.slug ?? "tiruvannamalai"] ?? t?.image;
 
   return (
-    <div className="relative min-h-screen bg-[#fdf8f6] pb-10">
+    <div className="relative min-h-screen bg-[#FAF6F0] pb-10">
       {/* Header banner */}
       <header className="relative overflow-hidden print:hidden">
         {hero && (
           <div className="absolute inset-y-0 right-0 w-full md:w-3/5 pointer-events-none" aria-hidden>
             <img src={hero} alt="" className="w-full h-full object-cover object-[center_45%] opacity-60 md:opacity-90" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#fdf8f6] via-[#fdf8f6]/40 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#fdf8f6] to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#FAF6F0] via-[#FAF6F0]/40 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#FAF6F0] to-transparent" />
           </div>
         )}
         <div className="relative max-w-[1320px] mx-auto px-4 lg:px-8 pt-8 pb-10">
-          <span className="inline-flex items-center gap-2 rounded-full bg-rose-50 border border-rose-100 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-saffron">
+          <span className="inline-flex items-center gap-2 rounded-full bg-[#FAF6F0] border border-[#E8E2D5] px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-[#C48437]">
             <BrainCircuit className="w-4 h-4" /> {tStr("AI Smart Planner")}
           </span>
-          <h1 className="font-serif text-3xl lg:text-4xl font-bold text-slate-900 mt-3">{tStr("Plan My Perfect Visit")}</h1>
+          <h1 className="font-serif text-3xl lg:text-4xl font-bold text-[#0B2F25] mt-3">{tStr("Plan My Perfect Visit")}</h1>
           <p className="text-sm text-slate-600 mt-2 max-w-md">
             {tStr("Tell us your preferences — AI will craft the ideal time, route, and on-site flow with a premium comfort focus.")}
           </p>

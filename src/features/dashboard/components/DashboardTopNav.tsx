@@ -23,7 +23,7 @@ export function DashboardTopNav({
       <div className="flex min-w-0 items-center gap-2 lg:gap-3">
         {/* State Selector */}
         <div className="relative hidden sm:block group">
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-saffron/20 to-rose-500/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-saffron/20 to-[#0B2F25]/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
           <button
             onClick={() => { setStateOpen((o: boolean) => !o); setDistrictOpen(false); setTempleOpen(false); }}
             className="relative flex items-center gap-1.5 lg:gap-2.5 rounded-full border border-border bg-white px-3 lg:px-4 py-2 md:py-2.5 text-xs md:text-sm font-semibold shadow-sm transition-all hover:border-saffron/30 min-w-0 shrink"
@@ -65,7 +65,7 @@ export function DashboardTopNav({
 
         {/* District Selector */}
         <div className="relative hidden sm:block group">
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-saffron/20 to-rose-500/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-saffron/20 to-[#0B2F25]/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
           <button
             onClick={() => { setDistrictOpen((o: boolean) => !o); setStateOpen(false); setTempleOpen(false); }}
             className="relative flex items-center gap-1.5 lg:gap-2.5 rounded-full border border-border bg-white px-3 lg:px-4 py-2 md:py-2.5 text-xs md:text-sm font-semibold shadow-sm transition-all hover:border-saffron/30 min-w-0 shrink"

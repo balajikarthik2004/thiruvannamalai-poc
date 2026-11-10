@@ -79,17 +79,17 @@ function CartPage() {
 
   if (isSuccess) {
     return (
-      <div className="min-h-screen bg-[#fdf8f6] flex flex-col items-center justify-center p-6 text-center">
-        <div className="w-32 h-32 bg-[#e32c26]/10 text-[#e32c26] rounded-full flex items-center justify-center mb-8 animate-in zoom-in duration-500 shadow-xl shadow-[#e32c26]/20">
+      <div className="min-h-screen bg-[#FAF6F0] flex flex-col items-center justify-center p-6 text-center">
+        <div className="w-32 h-32 bg-[#0B2F25]/10 text-[#0B2F25] rounded-full flex items-center justify-center mb-8 animate-in zoom-in duration-500 shadow-xl shadow-[#0B2F25]/20">
           <CheckCircle2 className="w-16 h-16 animate-in slide-in-from-bottom-4 duration-700" />
         </div>
-        <h1 className="text-4xl font-serif font-bold mb-4 text-foreground">{t("Order Confirmed")}</h1>
+        <h1 className="text-4xl font-serif font-bold mb-4 text-[#0B2F25]">{t("Order Confirmed")}</h1>
         <p className="text-lg text-muted-foreground max-w-md mb-10">
           {t("Thank you, ")}{name || 'Devotee'}{t("! Your payment was successful.")} 
           {deliveryMethod === "pickup" ? t(" Please show your confirmation at the temple store counter.") : t(" It will be shipped to your address shortly.")}
         </p>
         <Link to="/store">
-          <Button size="lg" className="px-10 h-14 text-lg bg-[#e32c26] hover:bg-[#c9221d] text-white shadow-lg">
+          <Button size="lg" className="px-10 h-14 text-lg bg-[#0B2F25] hover:bg-[#073C2C] text-white shadow-lg">
             {t("Continue Shopping")}
           </Button>
         </Link>
@@ -99,21 +99,21 @@ function CartPage() {
 
   if (cart.length === 0) {
     return (
-      <div className="min-h-screen bg-[#fdf8f6] flex flex-col items-center justify-center p-6 text-center">
+      <div className="min-h-screen bg-[#FAF6F0] flex flex-col items-center justify-center p-6 text-center">
         <div className="w-24 h-24 bg-muted text-muted-foreground rounded-full flex items-center justify-center mb-6">
           <ShoppingCartIcon className="w-10 h-10" />
         </div>
         <h2 className="text-2xl font-semibold mb-2">{t("Your cart is empty")}</h2>
         <p className="text-muted-foreground mb-8">{t("Looks like you haven't added anything yet.")}</p>
         <Link to="/store">
-          <Button size="lg">{t("Browse Stores")}</Button>
+          <Button size="lg" className="bg-[#0B2F25] hover:bg-[#073C2C] text-white">{t("Browse Stores")}</Button>
         </Link>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#fdf8f6] pb-10 relative">
+    <div className="min-h-screen bg-[#FAF6F0] pb-10 relative">
       
       <div className="bg-primary/5 py-8 px-6 lg:px-12 border-b border-border/50">
         <div className="max-w-7xl mx-auto flex items-center gap-4">
@@ -315,7 +315,7 @@ function CartPage() {
               <Button 
                 type="submit" 
                 size="lg" 
-                className="w-full h-14 rounded-full text-lg font-bold bg-[#e32c26] hover:bg-[#c9221d] text-white shadow-lg shadow-[#e32c26]/20 transition-all active:scale-[0.98]"
+                className="w-full h-14 rounded-full text-lg font-bold bg-[#0B2F25] hover:bg-[#073C2C] text-white shadow-md shadow-[#0B2F25]/20 transition-all active:scale-[0.98]"
               >
                 {t("Pay ")}{formatINR(finalTotal)}
               </Button>

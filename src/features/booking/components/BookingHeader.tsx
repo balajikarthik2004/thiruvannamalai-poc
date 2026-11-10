@@ -1,54 +1,80 @@
 import { useCanGoBack, useNavigate, useRouter } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { Temple } from "@/data/temples";
-import muruganImg from "@/assets/murugan.png";
-import meenakshiImg from "@/assets/meenakshi.png";
-
-const bgImages: Record<string, string> = {
-  "tiruvannamalai": "/temples/tiruvannamalai/night.jpg",
-  "palani-murugan": muruganImg,
-  "madurai-meenakshi": meenakshiImg,
-};
+import type { Temple } from "@/data/temples";
 
 export function BookingHeader({ t }: { t: Temple }) {
   const { t: tStr } = useTranslation();
-  const hasBgImg = !!bgImages[t.slug];
   const router = useRouter();
   const navigate = useNavigate();
   const canGoBack = useCanGoBack();
 
-  // Return to the page the devotee came from; on a direct visit fall back to the temple page.
   const goBack = () => {
     if (canGoBack) router.history.back();
     else navigate({ to: "/temple/$slug", params: { slug: t.slug } });
   };
 
+  const isTiruvannamalai = t.slug === "tiruvannamalai";
+
   return (
-    <div className="relative h-[160px] overflow-hidden" style={{
-      background: hasBgImg
-        ? `url(${bgImages[t.slug]}) center 30% / cover no-repeat`
-        : t.image 
-          ? `url(${t.image}) center 20% / cover no-repeat`
-          : `linear-gradient(135deg, ${t.gradientFrom}, ${t.color})`
-    }}>
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
-      
-      <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4 z-10">
-        <button type="button" onClick={goBack} aria-label={tStr("Go back")} className="w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center text-white hover:bg-white/30 transition">
-          <ArrowLeft className="w-5 h-5" />
-        </button>
+    <header className="relative w-full overflow-hidden bg-[#1E0F07] text-white">
+      {/* Background artwork placed on the right side without text */}
+      <div
+        className="pointer-events-none absolute inset-y-0 right-0 w-full sm:w-3/5 lg:w-1/2 overflow-hidden"
+        aria-hidden
+      >
+        <img
+          src={isTiruvannamalai ? "/booking_banner_art_hd.jpg" : "/temples/tiruvannamalai/temple-hill.jpg"}
+          alt=""
+          className="h-full w-full object-cover object-right brightness-95"
+          onError={(e) => {
+            (e.target as HTMLElement).src = "/temples/tiruvannamalai/temple-hill.jpg";
+          }}
+        />
+        {/* Smooth gradient blending the background seamlessly */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#1E0F07] via-[#1E0F07]/60 to-transparent" />
       </div>
-      
-      <div className="absolute bottom-0 inset-x-0 p-5 lg:p-8 text-white z-10">
-        <div className="inline-flex items-center gap-1.5 bg-saffron/90 text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full mb-2">
-          {tStr("Special Entry Darshan")}
-        </div>
-        <h1 className="font-serif text-3xl font-semibold leading-tight drop-shadow-lg">{tStr(t.name)}</h1>
-        <div className="text-sm opacity-90 flex items-center gap-1 mt-1 drop-shadow-md">
-          {tStr(t.city)}, {tStr(t.district)} {tStr("District")}
+
+      <div className="relative z-10 mx-auto max-w-[1400px] px-4 py-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4 sm:gap-5">
+            {/* Golden Trishul icon in HD */}
+            <div className="flex h-14 w-12 sm:h-16 sm:w-14 shrink-0 items-center justify-center">
+              <img
+                src="/trishul_gold_hd.png"
+                alt="Trishul"
+                className="h-13 sm:h-15 w-auto object-contain drop-shadow-[0_2px_8px_rgba(217,119,6,0.35)]"
+                onError={(e) => {
+                  (e.target as HTMLElement).src = "/trishul_gold.png";
+                }}
+              />
+            </div>
+
+            {/* Title & Temple Info */}
+            <div className="min-w-0">
+              <h2 className="font-serif text-lg font-medium tracking-wide text-amber-100/90 sm:text-xl">
+                {isTiruvannamalai ? "Tiruvannamalai" : tStr(t.city)}
+              </h2>
+              <h1 className="font-serif text-xl font-bold leading-tight tracking-tight text-white sm:text-2xl lg:text-3xl drop-shadow-sm">
+                {isTiruvannamalai ? "Arunachaleswarar Temple" : tStr(t.name)}
+              </h1>
+              <p className="mt-0.5 text-xs font-medium text-amber-200/80 sm:text-sm">
+                {tStr("Special Entry Darshan Booking")}
+              </p>
+            </div>
+          </div>
+
+          {/* Quick back button */}
+          <button
+            type="button"
+            onClick={goBack}
+            aria-label={tStr("Go back")}
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-black/30 backdrop-blur-sm text-white/90 transition-all hover:bg-black/50 hover:text-white"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </button>
         </div>
       </div>
-    </div>
+    </header>
   );
 }

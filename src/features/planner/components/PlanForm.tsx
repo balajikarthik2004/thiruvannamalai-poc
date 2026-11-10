@@ -73,8 +73,8 @@ export function PlanForm({
   };
 
   return (
-    <div className="bg-white border border-rose-100 rounded-3xl p-4 sm:p-6 shadow-sm">
-      <ol className="divide-y divide-rose-100">
+    <div className="bg-white border border-[#E8E2D5] rounded-3xl p-4 sm:p-6 shadow-xs">
+      <ol className="divide-y divide-[#E8E2D5]">
         <Step n={1} icon={MapPin} title={tStr("Where are you traveling from?")}>
           <div className="relative">
             <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
@@ -147,7 +147,7 @@ export function PlanForm({
         type="button"
         onClick={handleGenerate}
         disabled={loading || missing.length > 0}
-        className="mt-4 w-full h-14 rounded-full bg-saffron text-white text-base font-bold flex justify-center items-center gap-2 shadow-lg shadow-saffron/25 hover:brightness-95 active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+        className="mt-4 w-full h-14 rounded-full bg-[#0B2F25] text-white text-base font-bold flex justify-center items-center gap-2 shadow-md shadow-[#0B2F25]/20 hover:bg-[#073C2C] active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <BrainCircuit className="w-5 h-5" />}
         {loading ? tStr("AI is planning...") : tStr("Generate AI Itinerary")}
@@ -160,7 +160,7 @@ export function PlanForm({
       <ul className="mt-5 flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs text-slate-500">
         {FEATURES.map(([label, Icon]) => (
           <li key={label} className="flex items-center gap-1.5">
-            <Icon className="w-3.5 h-3.5 text-saffron" /> {tStr(label)}
+            <Icon className="w-3.5 h-3.5 text-[#C48437]" /> {tStr(label)}
           </li>
         ))}
       </ul>
@@ -172,8 +172,8 @@ function Step({ n, icon: Icon, title, children }: { n: number; icon: LucideIcon;
   return (
     <li className="py-4 first:pt-1">
       <div className="flex items-center gap-3 mb-3">
-        <span className="w-7 h-7 rounded-full bg-saffron text-white text-xs font-bold flex items-center justify-center shrink-0">{n}</span>
-        <Icon className="w-5 h-5 text-saffron shrink-0" />
+        <span className="w-7 h-7 rounded-full bg-[#0B2F25] text-white text-xs font-bold flex items-center justify-center shrink-0">{n}</span>
+        <Icon className="w-5 h-5 text-[#C48437] shrink-0" />
         <h2 className="text-[15px] font-bold text-slate-900">{title}</h2>
       </div>
       <div className="sm:pl-10">{children}</div>
@@ -195,10 +195,10 @@ function PillRow({ label, value, setValue, options }: { label: string; value: st
             aria-checked={active}
             onClick={() => setValue(v)}
             className={`inline-flex items-center gap-1.5 text-[13px] rounded-full px-3 py-1.5 border font-semibold whitespace-nowrap transition-all ${
-              active ? "bg-saffron text-white border-saffron shadow-md shadow-saffron/20" : "bg-white border-rose-100 text-slate-600 hover:border-saffron/50 hover:text-saffron"
+              active ? "bg-[#0B2F25] text-white border-[#0B2F25] shadow-xs" : "bg-white border-[#E8E2D5] text-slate-700 hover:border-[#0B2F25]/40 hover:text-[#0B2F25]"
             }`}
           >
-            <Icon className={`w-3.5 h-3.5 ${active ? "text-white" : "text-saffron"}`} />
+            <Icon className={`w-3.5 h-3.5 ${active ? "text-white" : "text-[#C48437]"}`} />
             {tStr(l)}
           </button>
         );

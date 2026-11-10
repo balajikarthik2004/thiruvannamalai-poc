@@ -1,0 +1,928 @@
+{
+  "type": "FeatureCollection",
+  "metadata": {
+    "title": "Girivalam — Arunachala circumambulation route",
+    "generatedAt": "2026-11-10",
+    "generatedBy": "scripts/build-girivalam-route.mjs",
+    "totalRoutedKm": 14.97,
+    "publishedKm": 14,
+    "direction": "clockwise, hill kept on the right",
+    "verifiedStops": [
+      "temple",
+      "indra",
+      "yama",
+      "niruthi",
+      "varuna",
+      "kubera"
+    ],
+    "unverifiedStops": [
+      "agni",
+      "vayu",
+      "esanya"
+    ],
+    "roadsUsed": [
+      "Car Street",
+      "Chengam Main Road",
+      "Cuddalore - Chittoor Road",
+      "Hill Round Road",
+      "Mathalankulam Street",
+      "Pei Gopuram Road",
+      "Pondy - Krishnagiri Road (Old NH66)",
+      "Tiruvannamalai - Kanji Road",
+      "Vada Othavadai Street"
+    ],
+    "bbox": [
+      79.031532,
+      12.223091,
+      79.075141,
+      12.259334
+    ],
+    "sources": [
+      {
+        "name": "OpenStreetMap",
+        "what": "Shrine and temple coordinates, and the road network the line is routed over",
+        "licence": "ODbL 1.0",
+        "url": "https://www.openstreetmap.org/copyright"
+      },
+      {
+        "name": "OSRM demo server (foot profile)",
+        "what": "Walking geometry between the surveyed shrines",
+        "url": "https://project-osrm.org/"
+      }
+    ],
+    "caveats": [
+      "Agni, Vayu and Esanya Lingams have no surveyed coordinate in OpenStreetMap. Their markers are placed on the routed line at the distance the temple publishes and are flagged verified:false. Do not present them as surveyed positions.",
+      "The routed distance is 14.97 km against the 14 km the temple publishes; the routed line follows the motor road, which runs slightly wide of the pilgrim footpath in places.",
+      "This file carries geometry only. It contains no crowd, facility or timing data."
+    ]
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            79.067039,
+            12.232884
+          ],
+          [
+            79.067955,
+            12.232734
+          ],
+          [
+            79.068676,
+            12.232579
+          ],
+          [
+            79.069693,
+            12.232346
+          ],
+          [
+            79.070363,
+            12.232129
+          ],
+          [
+            79.071064,
+            12.232017
+          ],
+          [
+            79.071016,
+            12.231167
+          ],
+          [
+            79.070971,
+            12.230892
+          ],
+          [
+            79.070912,
+            12.230706
+          ],
+          [
+            79.070598,
+            12.230181
+          ],
+          [
+            79.070234,
+            12.229294
+          ]
+        ]
+      },
+      "properties": {
+        "id": "temple-indra",
+        "fromId": "temple",
+        "toId": "indra",
+        "fromKm": 0,
+        "toKm": 0.77,
+        "lengthKm": 0.77
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            79.070234,
+            12.229294
+          ],
+          [
+            79.070142,
+            12.229053
+          ],
+          [
+            79.070055,
+            12.229033
+          ],
+          [
+            79.069475,
+            12.229109
+          ],
+          [
+            79.067262,
+            12.229529
+          ],
+          [
+            79.066657,
+            12.226993
+          ],
+          [
+            79.066652,
+            12.226853
+          ],
+          [
+            79.066591,
+            12.226703
+          ],
+          [
+            79.066502,
+            12.226601
+          ],
+          [
+            79.066133,
+            12.226476
+          ],
+          [
+            79.062907,
+            12.224679
+          ],
+          [
+            79.062303,
+            12.224577
+          ],
+          [
+            79.061157,
+            12.224619
+          ],
+          [
+            79.061035,
+            12.224575
+          ],
+          [
+            79.060836,
+            12.224435
+          ]
+        ]
+      },
+      "properties": {
+        "id": "indra-agni",
+        "fromId": "indra",
+        "toId": "agni",
+        "fromKm": 0.77,
+        "toKm": 2.134,
+        "lengthKm": 1.364
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            79.060836,
+            12.224435
+          ],
+          [
+            79.060383,
+            12.224153
+          ],
+          [
+            79.059815,
+            12.223872
+          ],
+          [
+            79.05848,
+            12.223343
+          ],
+          [
+            79.05772,
+            12.223134
+          ],
+          [
+            79.057323,
+            12.223093
+          ],
+          [
+            79.056047,
+            12.223091
+          ],
+          [
+            79.054906,
+            12.223154
+          ],
+          [
+            79.053753,
+            12.22326
+          ],
+          [
+            79.05318,
+            12.223432
+          ],
+          [
+            79.052264,
+            12.223905
+          ],
+          [
+            79.051626,
+            12.224136
+          ],
+          [
+            79.050184,
+            12.22446
+          ],
+          [
+            79.049259,
+            12.224782
+          ],
+          [
+            79.048584,
+            12.224981
+          ],
+          [
+            79.047073,
+            12.225206
+          ],
+          [
+            79.04637,
+            12.22535
+          ],
+          [
+            79.045868,
+            12.225577
+          ],
+          [
+            79.044473,
+            12.22655
+          ]
+        ]
+      },
+      "properties": {
+        "id": "agni-yama",
+        "fromId": "agni",
+        "toId": "yama",
+        "fromKm": 2.134,
+        "toKm": 4.023,
+        "lengthKm": 1.889
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            79.044473,
+            12.22655
+          ],
+          [
+            79.042764,
+            12.227696
+          ],
+          [
+            79.04181,
+            12.228197
+          ],
+          [
+            79.041753,
+            12.228284
+          ],
+          [
+            79.041677,
+            12.228311
+          ],
+          [
+            79.040116,
+            12.229834
+          ],
+          [
+            79.038449,
+            12.231408
+          ],
+          [
+            79.038206,
+            12.231801
+          ],
+          [
+            79.037629,
+            12.232413
+          ],
+          [
+            79.037304,
+            12.232618
+          ],
+          [
+            79.036317,
+            12.233122
+          ],
+          [
+            79.034429,
+            12.233814
+          ],
+          [
+            79.032703,
+            12.234609
+          ],
+          [
+            79.032617,
+            12.23452
+          ],
+          [
+            79.032343,
+            12.234713
+          ]
+        ]
+      },
+      "properties": {
+        "id": "yama-niruthi",
+        "fromId": "yama",
+        "toId": "niruthi",
+        "fromKm": 4.023,
+        "toKm": 5.661,
+        "lengthKm": 1.638
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            79.032343,
+            12.234713
+          ],
+          [
+            79.032617,
+            12.23452
+          ],
+          [
+            79.032703,
+            12.234609
+          ],
+          [
+            79.031661,
+            12.239077
+          ],
+          [
+            79.031532,
+            12.240252
+          ],
+          [
+            79.031537,
+            12.243705
+          ],
+          [
+            79.031661,
+            12.244634
+          ],
+          [
+            79.032008,
+            12.245509
+          ],
+          [
+            79.032495,
+            12.246375
+          ],
+          [
+            79.032968,
+            12.247108
+          ],
+          [
+            79.033309,
+            12.247485
+          ],
+          [
+            79.033433,
+            12.247585
+          ],
+          [
+            79.034839,
+            12.249302
+          ]
+        ]
+      },
+      "properties": {
+        "id": "niruthi-varuna",
+        "fromId": "niruthi",
+        "toId": "varuna",
+        "fromKm": 5.661,
+        "toKm": 7.47,
+        "lengthKm": 1.808
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            79.034839,
+            12.249302
+          ],
+          [
+            79.035116,
+            12.249646
+          ],
+          [
+            79.036261,
+            12.251379
+          ],
+          [
+            79.036562,
+            12.251765
+          ],
+          [
+            79.036881,
+            12.252061
+          ],
+          [
+            79.03741,
+            12.252368
+          ],
+          [
+            79.040234,
+            12.253635
+          ],
+          [
+            79.041733,
+            12.253969
+          ],
+          [
+            79.042594,
+            12.254245
+          ],
+          [
+            79.043195,
+            12.254604
+          ],
+          [
+            79.046135,
+            12.25669
+          ],
+          [
+            79.047833,
+            12.257932
+          ],
+          [
+            79.048394,
+            12.258302
+          ],
+          [
+            79.048828,
+            12.258509
+          ]
+        ]
+      },
+      "properties": {
+        "id": "varuna-vayu",
+        "fromId": "varuna",
+        "toId": "vayu",
+        "fromKm": 7.47,
+        "toKm": 9.347,
+        "lengthKm": 1.878
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            79.048828,
+            12.258509
+          ],
+          [
+            79.049179,
+            12.258677
+          ],
+          [
+            79.050781,
+            12.259235
+          ],
+          [
+            79.051265,
+            12.259334
+          ],
+          [
+            79.056542,
+            12.257571
+          ],
+          [
+            79.057012,
+            12.257332
+          ],
+          [
+            79.058363,
+            12.256473
+          ],
+          [
+            79.060903,
+            12.25509
+          ]
+        ]
+      },
+      "properties": {
+        "id": "vayu-kubera",
+        "fromId": "vayu",
+        "toId": "kubera",
+        "fromKm": 9.347,
+        "toKm": 10.783,
+        "lengthKm": 1.436
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            79.060903,
+            12.25509
+          ],
+          [
+            79.064084,
+            12.253237
+          ],
+          [
+            79.064946,
+            12.252832
+          ],
+          [
+            79.066348,
+            12.252008
+          ],
+          [
+            79.068406,
+            12.250905
+          ],
+          [
+            79.069485,
+            12.250236
+          ],
+          [
+            79.070618,
+            12.249588
+          ],
+          [
+            79.070676,
+            12.249591
+          ],
+          [
+            79.071965,
+            12.248786
+          ],
+          [
+            79.072112,
+            12.248444
+          ],
+          [
+            79.072237,
+            12.247698
+          ],
+          [
+            79.072781,
+            12.242839
+          ],
+          [
+            79.072966,
+            12.241516
+          ],
+          [
+            79.073071,
+            12.240982
+          ],
+          [
+            79.07291,
+            12.240238
+          ]
+        ]
+      },
+      "properties": {
+        "id": "kubera-esanya",
+        "fromId": "kubera",
+        "toId": "esanya",
+        "fromKm": 10.783,
+        "toKm": 13.139,
+        "lengthKm": 2.356
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            79.07291,
+            12.240238
+          ],
+          [
+            79.072453,
+            12.238371
+          ],
+          [
+            79.07244,
+            12.238191
+          ],
+          [
+            79.072746,
+            12.237865
+          ],
+          [
+            79.073188,
+            12.23754
+          ],
+          [
+            79.073584,
+            12.237104
+          ],
+          [
+            79.074967,
+            12.234999
+          ],
+          [
+            79.075094,
+            12.234785
+          ],
+          [
+            79.075141,
+            12.234501
+          ],
+          [
+            79.074378,
+            12.234352
+          ],
+          [
+            79.073197,
+            12.234209
+          ],
+          [
+            79.073158,
+            12.234159
+          ],
+          [
+            79.073049,
+            12.23353
+          ],
+          [
+            79.072947,
+            12.233446
+          ],
+          [
+            79.071328,
+            12.233557
+          ],
+          [
+            79.070541,
+            12.233721
+          ],
+          [
+            79.068079,
+            12.234028
+          ],
+          [
+            79.067955,
+            12.232734
+          ],
+          [
+            79.067039,
+            12.232884
+          ]
+        ]
+      },
+      "properties": {
+        "id": "esanya-temple",
+        "fromId": "esanya",
+        "toId": "temple",
+        "fromKm": 13.139,
+        "toKm": 14.972,
+        "lengthKm": 1.833
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.066827,
+          12.231844
+        ]
+      },
+      "properties": {
+        "id": "temple",
+        "order": 0,
+        "kind": "temple",
+        "verified": true,
+        "positionSource": "OpenStreetMap way/91456713",
+        "osm": "way/91456713",
+        "osmName": "Arulmigu Arunachaleswarar Temple",
+        "osmNameTa": "அண்ணாமலையார் கோயில்",
+        "osmCheckDate": null,
+        "measuredKm": 0,
+        "publishedKm": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.070388,
+          12.229245
+        ]
+      },
+      "properties": {
+        "id": "indra",
+        "order": 1,
+        "kind": "lingam",
+        "verified": true,
+        "positionSource": "OpenStreetMap way/1553492403",
+        "osm": "way/1553492403",
+        "osmName": "Indira Lingam",
+        "osmNameTa": null,
+        "osmCheckDate": null,
+        "measuredKm": 0.77,
+        "publishedKm": 1.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.060836,
+          12.224435
+        ]
+      },
+      "properties": {
+        "id": "agni",
+        "order": 2,
+        "kind": "lingam",
+        "verified": false,
+        "positionSource": "Approximate — interpolated along the routed line at the published distance; no surveyed coordinate exists",
+        "osm": null,
+        "osmName": null,
+        "osmNameTa": null,
+        "osmCheckDate": null,
+        "measuredKm": 2.13,
+        "publishedKm": 3.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.0444,
+          12.226444
+        ]
+      },
+      "properties": {
+        "id": "yama",
+        "order": 3,
+        "kind": "lingam",
+        "verified": true,
+        "positionSource": "OpenStreetMap node/2154074938",
+        "osm": "node/2154074938",
+        "osmName": "Arulmigu Yamalingam",
+        "osmNameTa": "அருள்மிகு ஓம் எமலிங்கம்",
+        "osmCheckDate": "2025-02-11",
+        "measuredKm": 4.02,
+        "publishedKm": 4.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.032314,
+          12.234658
+        ]
+      },
+      "properties": {
+        "id": "niruthi",
+        "order": 4,
+        "kind": "lingam",
+        "verified": true,
+        "positionSource": "OpenStreetMap node/2154075000",
+        "osm": "node/2154075000",
+        "osmName": "Shri Niruthi Lingam",
+        "osmNameTa": "ஶ்ரீ நிருதி லிங்கம்",
+        "osmCheckDate": "2025-02-11",
+        "measuredKm": 5.66,
+        "publishedKm": 6.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.034669,
+          12.249433
+        ]
+      },
+      "properties": {
+        "id": "varuna",
+        "order": 5,
+        "kind": "lingam",
+        "verified": true,
+        "positionSource": "OpenStreetMap node/2154075143",
+        "osm": "node/2154075143",
+        "osmName": "Arulmigu Sri Varuna Lingam",
+        "osmNameTa": null,
+        "osmCheckDate": "2025-02-11",
+        "measuredKm": 7.47,
+        "publishedKm": 7.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.048828,
+          12.258509
+        ]
+      },
+      "properties": {
+        "id": "vayu",
+        "order": 6,
+        "kind": "lingam",
+        "verified": false,
+        "positionSource": "Approximate — interpolated along the routed line at the published distance; no surveyed coordinate exists",
+        "osm": null,
+        "osmName": null,
+        "osmNameTa": null,
+        "osmCheckDate": null,
+        "measuredKm": 9.35,
+        "publishedKm": 9.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.060969,
+          12.2552
+        ]
+      },
+      "properties": {
+        "id": "kubera",
+        "order": 7,
+        "kind": "lingam",
+        "verified": true,
+        "positionSource": "OpenStreetMap node/2154075184",
+        "osm": "node/2154075184",
+        "osmName": "Kubera Lingam",
+        "osmNameTa": "குபேர லிங்கம்",
+        "osmCheckDate": "2025-02-12",
+        "measuredKm": 10.78,
+        "publishedKm": 10.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.07291,
+          12.240238
+        ]
+      },
+      "properties": {
+        "id": "esanya",
+        "order": 8,
+        "kind": "lingam",
+        "verified": false,
+        "positionSource": "Approximate — interpolated along the routed line at the published distance; no surveyed coordinate exists",
+        "osm": null,
+        "osmName": null,
+        "osmNameTa": null,
+        "osmCheckDate": null,
+        "measuredKm": 13.14,
+        "publishedKm": 12.6
+      }
+    }
+  ]
+}

@@ -56,7 +56,7 @@ import { SEVERITY_BANDS } from "@/data/operations";
 
 // Leaflet and its tile layers are the heaviest thing on the page.
 const GirivalamMap = lazy(() =>
-  import("@/features/girivalam/components/GirivalamMap").then((m) => ({ default: m.GirivalamMap }))
+  import("@/features/girivalam/components/GirivalamMap").then((m) => ({ default: m.GirivalamMap })),
 );
 
 const TABS = [
@@ -103,7 +103,7 @@ function GirivalamPage() {
         replace: true,
         resetScroll: false,
       }),
-    [navigate]
+    [navigate],
   );
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -116,7 +116,7 @@ function GirivalamPage() {
 
   const selectLingam = useCallback(
     (id: string) => setSelectedId((cur) => (cur === id ? null : id)),
-    []
+    [],
   );
 
   const goToFacilities = useCallback(() => setTab("facilities"), []);
@@ -134,7 +134,10 @@ function GirivalamPage() {
     <div className="min-h-screen bg-[#FAF7F0] pb-10">
       {/* Hero Banner matching the devotee design */}
       <header className="relative overflow-hidden border-b border-[#E9E2D8] bg-[#FAF7F0]">
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-full sm:w-1/2 lg:w-2/5" aria-hidden>
+        <div
+          className="pointer-events-none absolute inset-y-0 right-0 w-full sm:w-1/2 lg:w-2/5"
+          aria-hidden
+        >
           <img
             src="/temples/tiruvannamalai/girivalam_banner_mountain.png"
             alt=""
@@ -205,12 +208,7 @@ function GirivalamPage() {
               label={t("Total Route")}
               tone="text-[#A86221]"
             />
-            <StatItem
-              icon={Mountain}
-              value="8"
-              label={t("Ashta Lingams")}
-              tone="text-[#A86221]"
-            />
+            <StatItem icon={Mountain} value="8" label={t("Ashta Lingams")} tone="text-[#A86221]" />
             <StatItem
               icon={Clock}
               value={girivalamSummary.avgWalkingTime}
@@ -238,7 +236,9 @@ function GirivalamPage() {
           >
             <Megaphone className="h-5 w-5 shrink-0 text-[#217A4F]" />
             <span className="min-w-0 flex-1">
-              <span className="block text-xs font-bold text-[#14532D]">{t(todaysUpdate.title)}</span>
+              <span className="block text-xs font-bold text-[#14532D]">
+                {t(todaysUpdate.title)}
+              </span>
               <span className="block truncate text-xs text-[#2E7D4E]">{t(todaysUpdate.body)}</span>
             </span>
             <ChevronRight className="h-4 w-4 shrink-0 text-[#217A4F]/60" />
@@ -280,7 +280,11 @@ function GirivalamPage() {
                 onTogglePause={() => setRunning((v) => !v)}
                 onEnd={endJourney}
               />
-              <NextStopCard completedKm={completedKm} image={NEXT_STOP_IMAGE} onOpen={goToLingams} />
+              <NextStopCard
+                completedKm={completedKm}
+                image={NEXT_STOP_IMAGE}
+                onOpen={goToLingams}
+              />
               <NearbyFacilitiesCard onViewAll={goToFacilities} />
               <EmergencyHelpCard onOpen={() => setEmergencyOpen(true)} />
             </aside>
@@ -414,7 +418,9 @@ function EmergencyDialog({ onClose }: { onClose: () => void }) {
               <Phone className="h-5 w-5" />
             </span>
             <div>
-              <h2 className="font-serif text-lg font-bold text-rose-950">{t("Emergency Contacts")}</h2>
+              <h2 className="font-serif text-lg font-bold text-rose-950">
+                {t("Emergency Contacts")}
+              </h2>
               <p className="text-xs text-slate-500">
                 {t("Tap any number to call immediately · Available 24/7")}
               </p>
@@ -461,7 +467,9 @@ function EmergencyDialog({ onClose }: { onClose: () => void }) {
 
         <div className="mt-5 rounded-2xl border border-amber-200 bg-amber-50 p-3.5 text-xs text-amber-900">
           <strong className="font-bold">{t("Important:")}</strong>{" "}
-          {t("For medical emergencies, please provide your nearest Ashta Lingam or pole number to help teams reach you faster.")}
+          {t(
+            "For medical emergencies, please provide your nearest Ashta Lingam or pole number to help teams reach you faster.",
+          )}
         </div>
       </div>
     </div>
