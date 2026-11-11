@@ -102,11 +102,11 @@ function DonationsPage() {
           aria-hidden
         >
           <img
-            src="/donation_banner_art_hd.jpg"
+            src="/donation_banner_temple_lamps_hd.jpg"
             alt=""
             className="h-full w-full object-cover object-right brightness-95"
             onError={(e) => {
-              (e.target as HTMLElement).src = "/temples/tiruvannamalai/donation-hero.jpg";
+              (e.target as HTMLElement).src = "/donation_banner_art_hd.jpg";
             }}
           />
           {/* Subtle gradient blending left into the warm cream background */}
