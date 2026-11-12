@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
-import { Users, UserRound, Hourglass, Gauge, CalendarClock, ArrowUp, ArrowDown, CheckCircle2, AlertTriangle, TrendingUp, Lightbulb, CalendarDays, Footprints, ChevronRight, ListChecks, Info } from "lucide-react";
+import { Users, UserRound, Hourglass, Gauge, CalendarClock, ArrowUp, ArrowDown, CheckCircle2, AlertTriangle, TrendingUp, Lightbulb, CalendarDays, Footprints, ChevronRight, ListChecks, Info, History } from "lucide-react";
 import type { ReactNode } from "react";
 import { Area, ComposedChart, Line, ReferenceDot, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid } from "recharts";
 import { AnimatedNumber } from "./AnimatedNumber";
@@ -275,66 +275,199 @@ function TrendTooltip({ active, payload }: any) {
   const { t: tStr } = useTranslation();
   if (!active || !payload?.length) return null;
   const p: TrendPoint = payload[0].payload;
+  const currentDiff = p.current !== undefined ? p.current - p.typical : 0;
+  const diffPct = p.typical > 0 ? Math.round((currentDiff / p.typical) * 100) : 0;
+
   return (
-    <div className="bg-slate-900 text-white rounded-lg px-3 py-2 text-xs shadow-lg">
-      <div className="font-bold mb-1">{formatHour(p.h)}</div>
+    <div className="bg-slate-900/95 backdrop-blur-md text-white rounded-xl px-3 py-2 text-xs shadow-xl border border-slate-700/60">
+      <div className="font-bold text-slate-200 border-b border-slate-800 pb-1 mb-1.5 flex items-center justify-between gap-3">
+        <span>{formatHour(p.h)}</span>
+        {p.current !== undefined && (
+          <span
+            className={`text-[10px] font-semibold px-1.5 py-0.2 rounded ${
+              diffPct > 10
+                ? "bg-rose-500/20 text-rose-300 border border-rose-500/30"
+                : diffPct < -10
+                ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+                : "bg-slate-800 text-slate-300"
+            }`}
+          >
+            {diffPct > 0 ? `+${diffPct}%` : `${diffPct}%`} {tStr("vs typical")}
+          </span>
+        )}
+      </div>
       {p.current !== undefined && (
-        <div className="flex items-center gap-2"><span className="w-3 h-0.5" style={{ background: CURRENT }} />{tStr("Current")}: <strong className="tabular-nums">{nf.format(p.current)}</strong></div>
+        <div className="flex items-center justify-between gap-3 py-0.5">
+          <span className="flex items-center gap-1.5 text-slate-300">
+            <span className="w-2.5 h-1 rounded-full" style={{ background: CURRENT }} />
+            {tStr("Current")}
+          </span>
+          <strong className="tabular-nums font-bold text-white">{nf.format(p.current)}</strong>
+        </div>
       )}
-      <div className="flex items-center gap-2"><span className="w-3 border-t border-dashed" style={{ borderColor: "#cbd5e1" }} />{tStr("Typical")}: <strong className="tabular-nums">{nf.format(p.typical)}</strong></div>
+      <div className="flex items-center justify-between gap-3 py-0.5">
+        <span className="flex items-center gap-1.5 text-slate-400">
+          <span className="w-2.5 border-t border-dashed" style={{ borderColor: "#cbd5e1" }} />
+          {tStr("Typical")}
+        </span>
+        <strong className="tabular-nums text-slate-300">{nf.format(p.typical)}</strong>
+      </div>
+      {p.lastWeek !== undefined && (
+        <div className="flex items-center justify-between gap-3 py-0.5">
+          <span className="flex items-center gap-1.5 text-violet-300">
+            <span className="w-2.5 h-1 rounded-full" style={{ background: HISTORICAL }} />
+            {tStr("Last week")}
+          </span>
+          <strong className="tabular-nums text-violet-200">{nf.format(p.lastWeek)}</strong>
+        </div>
+      )}
     </div>
   );
 }
 
-export function CrowdTrendChart({ trend, nowH, liveCrowd, showHistorical = false }: { trend: TrendPoint[]; nowH: number; liveCrowd: number; showHistorical?: boolean }) {
+export function CrowdTrendChart({
+  trend,
+  nowH,
+  liveCrowd,
+  showHistorical = false,
+  onToggleHistorical,
+}: {
+  trend: TrendPoint[];
+  nowH: number;
+  liveCrowd: number;
+  showHistorical?: boolean;
+  onToggleHistorical?: () => void;
+}) {
   const { t: tStr } = useTranslation();
   const ticks = [6, 10, 14, 18, 22];
   // Round y-axis steps (5K for big temples, 1K for small ones).
   const maxY = Math.max(...trend.map((p) => Math.max(p.typical, p.current ?? 0, showHistorical ? p.lastWeek : 0)));
   const step = maxY > 10000 ? 5000 : maxY > 2000 ? 1000 : 200;
   const yTicks = Array.from({ length: Math.ceil(maxY / step) + 1 }, (_, i) => i * step);
+
   return (
     <Panel
-      className="xl:flex-1 xl:flex xl:flex-col"
       title={tStr("Crowd Trend (Today)")}
       icon={TrendingUp}
       right={
-        <div className="flex items-center gap-4 text-xs text-slate-600">
-          <span className="flex items-center gap-1.5"><span className="w-4 h-0.5 rounded" style={{ background: CURRENT }} />{tStr("Current")}</span>
-          <span className="flex items-center gap-1.5"><span className="w-4 border-t-2 border-dashed" style={{ borderColor: TYPICAL }} />{tStr("Typical day")}</span>
-          {showHistorical && (
-            <span className="flex items-center gap-1.5"><span className="w-4 h-0.5 rounded" style={{ background: HISTORICAL }} />{tStr("Last week")}</span>
+        <div className="flex flex-wrap items-center gap-3 text-xs text-slate-600">
+          <span className="flex items-center gap-1.5">
+            <span className="w-3.5 h-1 rounded-full" style={{ background: CURRENT }} />
+            <span className="font-medium text-slate-700">{tStr("Current")}</span>
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-3.5 border-t-2 border-dashed" style={{ borderColor: TYPICAL }} />
+            <span className="font-medium text-slate-500">{tStr("Typical day")}</span>
+          </span>
+          {onToggleHistorical ? (
+            <button
+              type="button"
+              onClick={onToggleHistorical}
+              aria-pressed={showHistorical}
+              className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-all border ${
+                showHistorical
+                  ? "bg-violet-600 text-white border-violet-600 shadow-2xs"
+                  : "bg-slate-50 text-slate-600 border-slate-200 hover:border-violet-300 hover:text-violet-700"
+              }`}
+            >
+              <History className="w-3 h-3" />
+              <span>{tStr("Last week")}</span>
+            </button>
+          ) : (
+            showHistorical && (
+              <span className="flex items-center gap-1.5">
+                <span className="w-3.5 h-1 rounded-full" style={{ background: HISTORICAL }} />
+                <span className="font-medium text-violet-700">{tStr("Last week")}</span>
+              </span>
+            )
           )}
         </div>
       }
     >
-      <div className="h-[260px] xl:h-auto xl:flex-1 xl:min-h-[260px]" role="img" aria-label={`${tStr("Crowd trend today")}: ${nf.format(liveCrowd)} ${tStr("devotees at")} ${formatHour(nowH)}`}>
+      <div
+        className="h-[210px] sm:h-[225px] w-full"
+        role="img"
+        aria-label={`${tStr("Crowd trend today")}: ${nf.format(liveCrowd)} ${tStr("devotees at")} ${formatHour(nowH)}`}
+      >
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={trend} margin={{ top: 28, right: 12, left: 0, bottom: 0 }}>
+          <ComposedChart data={trend} margin={{ top: 22, right: 12, left: -14, bottom: 0 }}>
             <defs>
               <linearGradient id="trend-fill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={CURRENT} stopOpacity={0.22} />
-                <stop offset="100%" stopColor={CURRENT} stopOpacity={0.02} />
+                <stop offset="0%" stopColor={CURRENT} stopOpacity={0.25} />
+                <stop offset="90%" stopColor={CURRENT} stopOpacity={0.01} />
               </linearGradient>
             </defs>
-            <CartesianGrid vertical={false} stroke="#f1f5f9" />
-            <XAxis dataKey="h" type="number" domain={[6, 22]} ticks={ticks} tickFormatter={(h) => formatHour(h)} tick={{ fontSize: 11, fill: "#64748b" }} axisLine={{ stroke: "#e2e8f0" }} tickLine={false} />
-            <YAxis domain={[0, yTicks[yTicks.length - 1]]} ticks={yTicks} tickFormatter={(v) => (v >= 1000 ? `${Math.round(v / 1000)}K` : String(v))} tick={{ fontSize: 11, fill: "#64748b" }} axisLine={false} tickLine={false} width={40} />
+            <CartesianGrid vertical={false} stroke="#f1f5f9" strokeDasharray="3 3" />
+            <XAxis
+              dataKey="h"
+              type="number"
+              domain={[6, 22]}
+              ticks={ticks}
+              tickFormatter={(h) => formatHour(h)}
+              tick={{ fontSize: 11, fill: "#64748b" }}
+              axisLine={{ stroke: "#e2e8f0" }}
+              tickLine={false}
+            />
+            <YAxis
+              domain={[0, yTicks[yTicks.length - 1]]}
+              ticks={yTicks}
+              tickFormatter={(v) => (v >= 1000 ? `${Math.round(v / 1000)}K` : String(v))}
+              tick={{ fontSize: 11, fill: "#64748b" }}
+              axisLine={false}
+              tickLine={false}
+              width={40}
+            />
             <Tooltip content={<TrendTooltip />} cursor={{ stroke: "#94a3b8", strokeDasharray: "3 3" }} />
             {showHistorical && (
-              <Area dataKey="lastWeek" type="monotone" stroke={HISTORICAL} strokeWidth={1.75} fill={HISTORICAL} fillOpacity={0.1} dot={false} activeDot={{ r: 4, stroke: "#fff", strokeWidth: 2 }} isAnimationActive={false} />
+              <Area
+                dataKey="lastWeek"
+                type="monotone"
+                stroke={HISTORICAL}
+                strokeWidth={1.75}
+                fill={HISTORICAL}
+                fillOpacity={0.12}
+                dot={false}
+                activeDot={{ r: 4, stroke: "#fff", strokeWidth: 2 }}
+                isAnimationActive={false}
+              />
             )}
-            <Line dataKey="typical" type="monotone" stroke={TYPICAL} strokeWidth={2} strokeDasharray="6 5" dot={false} activeDot={{ r: 4, stroke: "#fff", strokeWidth: 2 }} isAnimationActive={false} />
-            <Area dataKey="current" type="monotone" stroke={CURRENT} strokeWidth={2} fill="url(#trend-fill)" dot={false} activeDot={{ r: 5, stroke: "#fff", strokeWidth: 2 }} connectNulls={false} isAnimationActive={false} />
-            <ReferenceLine x={nowH} stroke={CURRENT} strokeDasharray="3 3" strokeOpacity={0.6} />
+            <Line
+              dataKey="typical"
+              type="monotone"
+              stroke={TYPICAL}
+              strokeWidth={1.75}
+              strokeDasharray="5 4"
+              dot={false}
+              activeDot={{ r: 4, stroke: "#fff", strokeWidth: 2 }}
+              isAnimationActive={false}
+            />
+            <Area
+              dataKey="current"
+              type="monotone"
+              stroke={CURRENT}
+              strokeWidth={2.5}
+              fill="url(#trend-fill)"
+              dot={false}
+              activeDot={{ r: 5, stroke: "#fff", strokeWidth: 2 }}
+              connectNulls={false}
+              isAnimationActive={false}
+            />
+            <ReferenceLine x={nowH} stroke={CURRENT} strokeDasharray="3 3" strokeOpacity={0.7} />
             <ReferenceDot
               x={nowH}
               y={liveCrowd}
               r={5}
               fill={CURRENT}
               stroke="#fff"
-              strokeWidth={2}
-              label={{ value: `${formatHour(nowH)} · ${nf.format(liveCrowd)}`, position: nowH > 19 ? "left" : "top", fontSize: 11, fontWeight: 700, fill: "#0f172a", offset: 10 }}
+              strokeWidth={2.5}
+              label={{
+                value: `${formatHour(nowH)} · ${nf.format(liveCrowd)}`,
+                position: nowH > 19 ? "left" : "top",
+                fontSize: 11,
+                fontWeight: 700,
+                fill: "#0f172a",
+                offset: 8,
+              }}
             />
           </ComposedChart>
         </ResponsiveContainer>

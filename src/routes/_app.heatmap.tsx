@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
-import { RefreshCw, Maximize, Minimize, Maximize2, Flame, X, History, MapPin } from "lucide-react";
+import { RefreshCw, Maximize, Minimize, Maximize2, Flame, X, MapPin } from "lucide-react";
 import { temples } from "@/data/temples";
 import { useHeatmapZones } from "@/features/heatmap/hooks/useHeatmapZones";
 import { useLiveCrowd } from "@/features/heatmap/hooks/useLiveCrowd";
@@ -128,7 +128,7 @@ function HeatmapPage() {
 
         {/* Two independent columns so neither leaves an empty gap:
             left = map + gate table, right = insights + tips + trend. */}
-        <div className="grid xl:grid-cols-[minmax(0,1fr)_360px] gap-5 items-start xl:items-stretch">
+        <div className="grid xl:grid-cols-[minmax(0,1fr)_360px] gap-5 items-start">
           <div className="min-w-0 space-y-5">
             {mapImage ? (
               <div className="space-y-3">
@@ -194,24 +194,13 @@ function HeatmapPage() {
               closedNote={live.isClosed ? `${tStr("Darshan is closed now — reopens at")} ${live.openTime}` : undefined}
             />
             <TipsPanel slug={t.slug} bestWindow={live.bestWindow} quietestGate={live.quietestGate} nextEvent={live.nextEvent} onSelectZone={focusZone} />
-            <div className="md:col-span-2 xl:flex-1 xl:flex xl:flex-col gap-2">
-              <button
-                type="button"
-                onClick={() => setShowHistorical((v) => !v)}
-                aria-pressed={showHistorical}
-                className={`self-start inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-bold transition-colors ${
-                  showHistorical
-                    ? "bg-violet-600 text-white border-violet-600"
-                    : "bg-white text-slate-600 border-rose-100 hover:border-violet-400 hover:text-violet-600"
-                }`}
-              >
-                <History className="w-3.5 h-3.5" /> {tStr("Historical overlay")}
-              </button>
+            <div className="md:col-span-2">
               <CrowdTrendChart
                 trend={live.trend}
                 nowH={live.nowH}
                 liveCrowd={live.liveCrowd}
                 showHistorical={showHistorical}
+                onToggleHistorical={() => setShowHistorical((v) => !v)}
               />
             </div>
           </div>
