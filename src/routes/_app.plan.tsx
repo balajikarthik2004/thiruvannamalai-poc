@@ -244,15 +244,17 @@ function PlanPage() {
             {/* Sample AI Itinerary */}
             <div>
               <SampleItineraryCard
+                temple={selectedTemple}
                 templeName={selectedTemple.name}
                 selectedTime={time}
-                imageSrc="/planner_itinerary_temple_hd.jpg"
+                imageSrc={selectedTemple.image || "/planner_itinerary_temple_hd.jpg"}
               />
             </div>
 
             {/* Your Temple Visit Plan Output Card */}
             <div>
               <TempleVisitPlanCard
+                temple={selectedTemple}
                 templeName={selectedTemple.name}
                 travelDate={formattedDate}
                 bestDarshanTime={bestDarshanTime}
@@ -284,6 +286,7 @@ function PlanPage() {
                 adults={adults}
                 childrenCount={childrenCount}
                 seniorsCount={seniorsCount}
+                destinationCity={selectedTemple.city}
               />
             </div>
           </div>

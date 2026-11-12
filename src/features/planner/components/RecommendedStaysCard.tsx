@@ -74,11 +74,48 @@ export const STAYS_DATA: StayItem[] = [
   },
 ];
 
+export const STAYS_DATA_UDUPI: StayItem[] = [
+  {
+    id: "kediyoor",
+    name: "Hotel Kediyoor",
+    rating: "4.2",
+    reviewsCount: "1,650+",
+    dist: "0.5 km away",
+    pricePerNight: 1600,
+    image: "/stay_hotel_ramakrishna_hd.jpg",
+    desc: "Renowned Udupi pilgrim hotel near Sri Krishna Matha Car Street with authentic vegetarian Udupi restaurant.",
+    tags: ["Pure Veg Restaurant", "Walk to Car Street", "AC Rooms", "24/7 Desk"],
+  },
+  {
+    id: "samanvay",
+    name: "Samanvay Boutique Hotel",
+    rating: "4.5",
+    reviewsCount: "2,340+",
+    dist: "1.2 km away",
+    pricePerNight: 3400,
+    image: "/stay_sparsa_resort_hd.jpg",
+    desc: "Upscale boutique stay offering contemporary comforts, pure vegetarian multi-cuisine dining, and valet parking.",
+    tags: ["Boutique Luxury", "Pure Veg Dining", "Free Wi-Fi", "Family Suites"],
+  },
+  {
+    id: "mathura",
+    name: "Hotel Mathura Comforts",
+    rating: "4.0",
+    reviewsCount: "920+",
+    dist: "0.4 km away",
+    pricePerNight: 1300,
+    image: "/stay_ttdc_tamil_nadu_hd.jpg",
+    desc: "Peaceful budget stay situated within short walking distance to Kanakana Kindi and Madhwa Sarovara.",
+    tags: ["Walk to Temple", "Ample Car Parking", "24/7 Hot Water", "Pilgrim Friendly"],
+  },
+];
+
 interface Props {
   travelDate?: string;
   adults?: number;
   childrenCount?: number;
   seniorsCount?: number;
+  destinationCity?: string;
 }
 
 export const RecommendedStaysCard = memo(function RecommendedStaysCard({
@@ -86,6 +123,7 @@ export const RecommendedStaysCard = memo(function RecommendedStaysCard({
   adults = 2,
   childrenCount = 1,
   seniorsCount = 0,
+  destinationCity,
 }: Props) {
   const { t } = useTranslation();
   const [showAll, setShowAll] = useState(false);
@@ -95,7 +133,8 @@ export const RecommendedStaysCard = memo(function RecommendedStaysCard({
   const [guestPhone, setGuestPhone] = useState("");
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
 
-  const displayedStays = showAll ? STAYS_DATA : STAYS_DATA.slice(0, 3);
+  const baseStays = destinationCity?.toLowerCase().includes("udupi") ? STAYS_DATA_UDUPI : STAYS_DATA;
+  const displayedStays = showAll ? baseStays : baseStays.slice(0, 3);
   const totalGuests = adults + childrenCount + seniorsCount;
 
   const handleOpenBooking = (stay: StayItem) => {

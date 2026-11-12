@@ -24,8 +24,10 @@ import {
   Info,
 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import type { Temple } from "@/data/temples";
 
 interface Props {
+  temple?: Temple;
   templeName?: string;
   travelDate?: string;
   bestDarshanTime?: string;
@@ -40,6 +42,7 @@ interface Props {
 }
 
 export const TempleVisitPlanCard = memo(function TempleVisitPlanCard({
+  temple,
   templeName = "Tiruvannamalai Arunachaleswarar Temple",
   travelDate = "Nov 09, 2026",
   bestDarshanTime = "3:45 PM – 5:15 PM",
@@ -83,7 +86,90 @@ export const TempleVisitPlanCard = memo(function TempleVisitPlanCard({
     }
   };
 
-  const preferredRouteStr = `${originName || "Chennai"} → Tindivanam → ${templeName.split(" ")[0]}`;
+  const isUdupi = temple?.slug?.includes("udupi") || templeName.toLowerCase().includes("udupi");
+  const isTiruvannamalai =
+    temple?.slug?.includes("tiruvannamalai") ||
+    templeName.toLowerCase().includes("tiruvannamalai") ||
+    templeName.toLowerCase().includes("arunachaleswarar");
+  const isPalani = temple?.slug?.includes("palani") || templeName.toLowerCase().includes("palani");
+  const isMadurai = temple?.slug?.includes("meenakshi") || templeName.toLowerCase().includes("madurai");
+  const isRameswaram = temple?.slug?.includes("rameswaram") || templeName.toLowerCase().includes("rameswaram");
+
+  const poojaSyncText = isUdupi
+    ? "Synchronized with evening Chamara Seva (7:00 PM) and morning Ushakala (6:00 AM) Aradhana."
+    : isPalani
+    ? "Synchronized with Sayaraksha Deeparadhana (5:30 PM) and Golden Chariot procession."
+    : isMadurai
+    ? "Synchronized with evening Maalai Pooja (4:30 PM) and night Palliarai (9:30 PM) procession."
+    : isTiruvannamalai
+    ? "Synchronized with Sayarakshai Deeparadhana (5:30 PM) and Kaalasanthi (8:00 AM) Vedic chants."
+    : "Synchronized with evening Deeparadhana (5:30 PM) and morning Vedic chants.";
+
+  const specialAdviceTitle = isUdupi
+    ? "Kanakana Kindi & Car Street"
+    : isPalani
+    ? "Rope Car & Panchamirtham"
+    : isMadurai
+    ? "Thousand Pillar Hall & Pond"
+    : isRameswaram
+    ? "22 Theerthams & Agni Snanam"
+    : isTiruvannamalai
+    ? "Girivalam Advice"
+    : "Sacred Prakaaram Walk";
+
+  const specialAdviceText = isUdupi
+    ? "Darshan through the sacred 9-holed silver window. Witness the grand Car Street chariot procession in the evening."
+    : isPalani
+    ? "Ascend Sivagiri hill via rope car or steps, and collect authentic Panchamirtham prasadam at the hilltop counter."
+    : isMadurai
+    ? "Visit the Golden Lotus Pond (Pottramarai Kulam) and view the musical stone pillars in the Thousand Pillar Hall."
+    : isRameswaram
+    ? "Begin with a holy sea dip at Agni Theertham, then receive sprinkling from all 22 sacred wells inside the temple."
+    : isTiruvannamalai
+    ? "Start the 14 km walk after 5:00 PM to finish comfortably under moonlight and breezy evening conditions."
+    : "Circumambulate the sacred outer prakaaram clockwise during the breezy sunset hours for spiritual peace.";
+
+  const insightActivityTitle = isUdupi
+    ? "Car Street Pradakshina"
+    : isPalani
+    ? "Rope Car / Hill Ascent"
+    : isMadurai
+    ? "Prakaaram & Hall Tour"
+    : isRameswaram
+    ? "22 Sacred Theerthams"
+    : isTiruvannamalai
+    ? "Girivalam (14 km)"
+    : "Prakaaram Circumambulation";
+
+  const insightActivityValue = isUdupi
+    ? "~45 min"
+    : isPalani
+    ? "~25 min"
+    : isMadurai
+    ? "~1 hr"
+    : isRameswaram
+    ? "~1.5 – 2 hrs"
+    : isTiruvannamalai
+    ? "~3 – 4 hrs"
+    : "~30 – 45 min";
+
+  const insightActivityHint = isUdupi
+    ? "Best: Evening Chariot"
+    : isPalani
+    ? "Advance token recommended"
+    : isMadurai
+    ? "Golden Lotus & Corridors"
+    : isRameswaram
+    ? "Well sprinklings"
+    : isTiruvannamalai
+    ? "Best: Evening / Moon"
+    : "Best: Evening / Sunset";
+
+  const preferredRouteStr = isUdupi
+    ? `${originName || "Bengaluru"} → Hassan → Sakleshpur → Udupi`
+    : isTiruvannamalai
+    ? `${originName || "Chennai"} → Tindivanam → Tiruvannamalai`
+    : `${originName || "Start"} → Highway → ${temple?.city || templeName.split(" ")[0]}`;
 
   return (
     <section className="bg-white border border-[#E8E2D5] rounded-3xl p-5 sm:p-7 shadow-xs overflow-hidden">
@@ -179,17 +265,17 @@ export const TempleVisitPlanCard = memo(function TempleVisitPlanCard({
               <span>{t("Kaala Pooja Sync")}</span>
             </div>
             <p className="mt-1 text-[11px] text-slate-500 leading-relaxed">
-              {t("Synchronized with Sayarakshai Deeparadhana (5:30 PM) and Kaalasanthi (8:00 AM) Vedic chants.")}
+              {t(poojaSyncText)}
             </p>
           </div>
 
           <div className="rounded-xl bg-white border border-[#E8E2D5]/80 p-3">
             <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
               <Mountain className="w-3.5 h-3.5 text-emerald-700" />
-              <span>{t("Girivalam Advice")}</span>
+              <span>{t(specialAdviceTitle)}</span>
             </div>
             <p className="mt-1 text-[11px] text-slate-500 leading-relaxed">
-              {t("Start the 14 km walk after 5:00 PM to finish comfortably under moonlight and breezy evening conditions.")}
+              {t(specialAdviceText)}
             </p>
           </div>
         </div>
@@ -273,10 +359,10 @@ export const TempleVisitPlanCard = memo(function TempleVisitPlanCard({
 
           <div className="rounded-xl bg-white border border-[#E8E2D5]/80 p-3">
             <div className="text-[11px] text-slate-400 font-medium flex items-center gap-1">
-              <Mountain className="w-3 h-3 text-[#C48437]" /> {t("Girivalam (14 km)")}
+              <Mountain className="w-3 h-3 text-[#C48437]" /> {t(insightActivityTitle)}
             </div>
             <div className="text-xs font-bold text-slate-900 mt-1">
-              ~3 – 4 hrs <span className="text-[10px] text-slate-400 font-normal">({t("Best: Evening / Moon")})</span>
+              {insightActivityValue} <span className="text-[10px] text-slate-400 font-normal">({t(insightActivityHint)})</span>
             </div>
           </div>
 
