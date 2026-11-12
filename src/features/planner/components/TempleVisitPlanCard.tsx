@@ -18,6 +18,10 @@ import {
   Map,
   Share2,
   CheckCircle2,
+  Sparkles,
+  Sun,
+  ShieldCheck,
+  Info,
 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
@@ -38,13 +42,13 @@ interface Props {
 export const TempleVisitPlanCard = memo(function TempleVisitPlanCard({
   templeName = "Tiruvannamalai Arunachaleswarar Temple",
   travelDate = "Nov 09, 2026",
-  bestDarshanTime = "3:30 PM – 5:00 PM",
+  bestDarshanTime = "3:45 PM – 5:15 PM",
   distanceKm = 195,
   travelHours = 4,
   travelMins = 10,
   originName = "Chennai",
   stayPrice = "From ₹1,200 / night",
-  waitTime = "45 – 60 min",
+  waitTime = "15 – 25 min",
   crowdLevel = "Medium",
   onOpenMap,
 }: Props) {
@@ -79,7 +83,7 @@ export const TempleVisitPlanCard = memo(function TempleVisitPlanCard({
     }
   };
 
-  const preferredRouteStr = `${originName || "Chennai"} → Ulundurpet → ${templeName.split(" ")[0]}`;
+  const preferredRouteStr = `${originName || "Chennai"} → Tindivanam → ${templeName.split(" ")[0]}`;
 
   return (
     <section className="bg-white border border-[#E8E2D5] rounded-3xl p-5 sm:p-7 shadow-xs overflow-hidden">
@@ -109,7 +113,7 @@ export const TempleVisitPlanCard = memo(function TempleVisitPlanCard({
         </div>
       </div>
 
-      {/* 2. Highlight Banner: Best Time for Darshan */}
+      {/* 2. Highlight Banner: Best Time for Darshan (Guaranteed 5 AM - 11 AM or 3:30 PM - 9 PM) */}
       <div className="mt-5 rounded-2xl bg-[#00875A] p-4 sm:p-5 text-white shadow-md shadow-[#00875A]/15 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3.5">
           <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/20 border border-white/30 backdrop-blur-sm">
@@ -117,27 +121,82 @@ export const TempleVisitPlanCard = memo(function TempleVisitPlanCard({
           </div>
           <div>
             <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-100">
-              {t("BEST TIME FOR DARSHAN")}
+              {t("RECOMMENDED TIME FOR TEMPLE VISIT")}
             </div>
             <div className="text-xl sm:text-2xl font-extrabold tracking-tight">
               {bestDarshanTime}
             </div>
+            <div className="text-[11px] text-emerald-100/90 mt-0.5 font-medium">
+              {t("Optimal open window (Sanctum rest 12:30 PM – 3:30 PM avoided)")}
+            </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 sm:self-center">
-          <span className="text-xs text-emerald-100 font-medium">
-            {t("Less Rush Expected")}
-          </span>
+        <div className="flex flex-col sm:items-end gap-1.5 self-start sm:self-auto">
           <span className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1 text-xs font-bold text-[#00875A] shadow-xs">
             <Check className="w-3.5 h-3.5" />
-            <span>{t("Recommended")}</span>
+            <span>{t("Fast Entry & Cool Floors")}</span>
+          </span>
+          <span className="text-[11px] text-emerald-100 font-medium">
+            ~15–20 mins wait expected
           </span>
         </div>
       </div>
 
-      {/* 3. Travel & Logistics Grid */}
-      <div className="mt-6 rounded-2xl bg-[#FAF6F0]/80 border border-[#E8E2D5] p-4 sm:p-5">
+      {/* 3. AI Strategic Suggestions */}
+      <div className="mt-5 rounded-2xl border border-amber-200/80 bg-amber-50/50 p-4 sm:p-5">
+        <div className="flex items-center gap-2 mb-3">
+          <Sparkles className="w-4 h-4 text-[#C48437]" />
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-900">
+            {t("AI Devotee Insights & Sacred Timing Guidance")}
+          </h3>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="rounded-xl bg-white border border-[#E8E2D5]/80 p-3">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
+              <Users className="w-3.5 h-3.5 text-[#00875A]" />
+              <span>{t("Lowest Crowd Window")}</span>
+            </div>
+            <p className="mt-1 text-[11px] text-slate-500 leading-relaxed">
+              {t("Darshan lines drop to ~25% capacity right after 3:30 PM reopening and early at 6:00 AM.")}
+            </p>
+          </div>
+
+          <div className="rounded-xl bg-white border border-[#E8E2D5]/80 p-3">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
+              <Sun className="w-3.5 h-3.5 text-amber-500" />
+              <span>{t("Thermal Comfort")}</span>
+            </div>
+            <p className="mt-1 text-[11px] text-slate-500 leading-relaxed">
+              {t("Midday sun heats granite stone corridors (11 AM – 3:30 PM). Morning/evening slots ensure cool floors.")}
+            </p>
+          </div>
+
+          <div className="rounded-xl bg-white border border-[#E8E2D5]/80 p-3">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
+              <Flame className="w-3.5 h-3.5 text-[#C48437]" />
+              <span>{t("Kaala Pooja Sync")}</span>
+            </div>
+            <p className="mt-1 text-[11px] text-slate-500 leading-relaxed">
+              {t("Synchronized with Sayarakshai Deeparadhana (5:30 PM) and Kaalasanthi (8:00 AM) Vedic chants.")}
+            </p>
+          </div>
+
+          <div className="rounded-xl bg-white border border-[#E8E2D5]/80 p-3">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
+              <Mountain className="w-3.5 h-3.5 text-emerald-700" />
+              <span>{t("Girivalam Advice")}</span>
+            </div>
+            <p className="mt-1 text-[11px] text-slate-500 leading-relaxed">
+              {t("Start the 14 km walk after 5:00 PM to finish comfortably under moonlight and breezy evening conditions.")}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* 4. Travel & Logistics Grid */}
+      <div className="mt-5 rounded-2xl bg-[#FAF6F0]/80 border border-[#E8E2D5] p-4 sm:p-5">
         <div className="flex items-center gap-2 mb-3.5">
           <Car className="w-4 h-4 text-[#C48437]" />
           <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800">
@@ -184,7 +243,7 @@ export const TempleVisitPlanCard = memo(function TempleVisitPlanCard({
         </div>
       </div>
 
-      {/* 4. Darshan Ticket Insights Grid */}
+      {/* 5. Darshan Ticket Insights Grid */}
       <div className="mt-4 rounded-2xl bg-[#FAF6F0]/80 border border-[#E8E2D5] p-4 sm:p-5">
         <div className="flex items-center gap-2 mb-3.5">
           <Ticket className="w-4 h-4 text-[#C48437]" />
@@ -217,7 +276,7 @@ export const TempleVisitPlanCard = memo(function TempleVisitPlanCard({
               <Mountain className="w-3 h-3 text-[#C48437]" /> {t("Girivalam (14 km)")}
             </div>
             <div className="text-xs font-bold text-slate-900 mt-1">
-              ~3 – 4 hrs <span className="text-[10px] text-slate-400 font-normal">({t("Best: Evening / Full Moon")})</span>
+              ~3 – 4 hrs <span className="text-[10px] text-slate-400 font-normal">({t("Best: Evening / Moon")})</span>
             </div>
           </div>
 
@@ -232,12 +291,12 @@ export const TempleVisitPlanCard = memo(function TempleVisitPlanCard({
         </div>
       </div>
 
-      {/* 5. Action Buttons Footer */}
+      {/* 6. Action Buttons Footer */}
       <div className="mt-6 flex flex-wrap items-center gap-3 pt-2">
         <button
           type="button"
           onClick={handleExportPDF}
-          className="inline-flex items-center gap-2 rounded-xl bg-[#C48437] px-4 py-2.5 text-xs font-bold text-white shadow-md hover:bg-[#A96E28] active:scale-[0.98] transition-all"
+          className="inline-flex items-center gap-2 rounded-xl bg-[#C48437] px-4 py-2.5 text-xs font-bold text-white shadow-md hover:bg-[#A96E28] active:scale-[0.98] transition-all cursor-pointer"
         >
           <Download className="w-4 h-4" />
           <span>{t("Export as PDF")}</span>
@@ -246,7 +305,7 @@ export const TempleVisitPlanCard = memo(function TempleVisitPlanCard({
         <button
           type="button"
           onClick={handleSetAlert}
-          className={`inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 text-xs font-bold transition-all ${
+          className={`inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 text-xs font-bold transition-all cursor-pointer ${
             alertSet
               ? "bg-[#00875A] text-white border-[#00875A]"
               : "bg-white border-[#E8E2D5] text-slate-800 hover:border-[#0B2F25] hover:text-[#0B2F25]"
@@ -267,7 +326,7 @@ export const TempleVisitPlanCard = memo(function TempleVisitPlanCard({
         <button
           type="button"
           onClick={handleShare}
-          className={`inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 text-xs font-bold transition-all ${
+          className={`inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 text-xs font-bold transition-all cursor-pointer ${
             shared
               ? "bg-[#00875A] text-white border-[#00875A]"
               : "bg-white border-[#E8E2D5] text-slate-800 hover:border-[#0B2F25] hover:text-[#0B2F25]"
@@ -280,4 +339,3 @@ export const TempleVisitPlanCard = memo(function TempleVisitPlanCard({
     </section>
   );
 });
-

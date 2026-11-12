@@ -20,15 +20,16 @@ export const Route = createFileRoute("/_app/plan")({
 function PlanPage() {
   const { t } = useTranslation();
 
-  // State matching the screenshot specifications
-  const [fromLocation, setFromLocation] = useState("Chennai");
+  // Fresh, clean initial state so reloads start empty and ready for new user inputs
+  const [fromLocation, setFromLocation] = useState("");
   const [templeSlug, setTempleSlug] = useState("tiruvannamalai");
-  const [date, setDate] = useState("2026-11-09");
+  const [date, setDate] = useState("");
   const [time, setTime] = useState("afternoon");
   const [adults, setAdults] = useState(2);
-  const [childrenCount, setChildrenCount] = useState(1);
+  const [childrenCount, setChildrenCount] = useState(0);
   const [seniorsCount, setSeniorsCount] = useState(0);
   const [purpose, setPurpose] = useState("darshan");
+  const [hasGenerated, setHasGenerated] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fullMap, setFullMap] = useState(false);
 
@@ -36,6 +37,18 @@ function PlanPage() {
 
   const selectedTemple =
     temples.find((x) => x.slug === templeSlug) || temples[0];
+
+  const handleReset = () => {
+    setFromLocation("");
+    setTempleSlug("tiruvannamalai");
+    setDate("");
+    setTime("afternoon");
+    setAdults(2);
+    setChildrenCount(0);
+    setSeniorsCount(0);
+    setPurpose("darshan");
+    setHasGenerated(false);
+  };
 
   // Dynamic calculations for route distance & duration
   const { distanceKm, travelHours, travelMins, bestDarshanTime, crowdLevel } =
@@ -68,10 +81,12 @@ function PlanPage() {
       }
 
       // Darshan time recommendation based on selected time preference
-      let darshanSlot = "3:30 PM – 5:00 PM";
-      if (time === "earlyMorning") darshanSlot = "5:30 AM – 7:00 AM";
-      else if (time === "morning") darshanSlot = "8:30 AM – 10:30 AM";
-      else if (time === "evening") darshanSlot = "5:30 PM – 7:30 PM";
+      // Strictly outside 11:00 AM – 3:30 PM (Midday sanctum rest), within 5:00 AM – 9:00 PM
+      let darshanSlot = "3:45 PM – 5:15 PM";
+      if (time === "earlyMorning") darshanSlot = "5:30 AM – 7:30 AM";
+      else if (time === "morning") darshanSlot = "8:00 AM – 10:30 AM";
+      else if (time === "evening") darshanSlot = "6:00 PM – 8:00 PM";
+      else if (time === "afternoon") darshanSlot = "3:45 PM – 5:15 PM";
       else if (time === "ai") darshanSlot = "6:00 AM – 7:30 AM";
 
       const crowd =
@@ -91,7 +106,7 @@ function PlanPage() {
     }, [fromLocation, time]);
 
   const formattedDate = useMemo(() => {
-    if (!date) return "Nov 09, 2026";
+    if (!date) return t("Select Visit Date");
     try {
       const parts = date.split("-");
       if (parts.length === 3) {
@@ -106,16 +121,19 @@ function PlanPage() {
     } catch {
       return date;
     }
-  }, [date]);
+  }, [date, t]);
 
   const handleGenerate = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      if (planRef.current) {
-        planRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }, 1000);
+      setHasGenerated(true);
+      setTimeout(() => {
+        if (planRef.current) {
+          planRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 80);
+    }, 900);
   };
 
   const heroImage =
@@ -125,7 +143,7 @@ function PlanPage() {
 
   return (
     <div className="min-h-screen bg-[#FAF6F0] pb-16">
-      {/* 1. Header Banner */}
+      {/* 1. Header Banner - Compact Single-Page Fit */}
       <header className="relative w-full overflow-hidden border-b border-[#E8E2D5] bg-[#FAF6F0] print:hidden">
         {/* Right background panoramic artwork */}
         <div
@@ -135,29 +153,29 @@ function PlanPage() {
           <img
             src={heroImage}
             alt=""
-            className="h-full w-full object-cover object-right brightness-95"
+            className="h-full w-full object-cover object-right brightness-95 opacity-80 sm:opacity-100"
             onError={(e) => {
               (e.target as HTMLElement).src = "/temples/tiruvannamalai/plan-trip-hero.jpg";
             }}
           />
           {/* Subtle gradient blending into ivory background */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#FAF6F0] via-[#FAF6F0]/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#FAF6F0] via-[#FAF6F0]/70 to-transparent" />
         </div>
 
-        <div className="relative mx-auto max-w-[1280px] px-4 py-8 sm:px-6 lg:px-8">
+        <div className="relative mx-auto max-w-[1080px] px-4 py-2 sm:py-3 lg:px-6">
           {/* Badge: AI SMART PLANNER */}
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-[#E8E2D5] bg-white px-3.5 py-1 text-xs font-bold uppercase tracking-widest text-[#C48437] shadow-2xs">
-            <Sparkles className="w-3.5 h-3.5 text-[#C48437]" />
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-[#E8E2D5] bg-white px-2.5 py-0.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#C48437] shadow-2xs">
+            <Sparkles className="w-3 h-3 text-[#C48437]" />
             <span>{t("AI SMART PLANNER")}</span>
           </div>
 
           {/* Heading */}
-          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#0B2F25] mt-3">
+          <h1 className="font-serif text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-[#0B2F25] mt-1">
             {t("Plan My Perfect Visit")}
           </h1>
 
           {/* Subtitle */}
-          <p className="mt-2 max-w-xl text-xs sm:text-sm text-slate-600 leading-relaxed">
+          <p className="mt-0.5 max-w-xl text-[11px] sm:text-xs text-slate-600 leading-snug">
             {t(
               "Tell us your preferences — AI will craft the ideal trip, route, and the flow with a premium comfort experience."
             )}
@@ -166,7 +184,7 @@ function PlanPage() {
       </header>
 
       {/* 2. Main Content Flow */}
-      <main className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8 -mt-2 space-y-6 sm:space-y-8">
+      <main className="mx-auto max-w-[1080px] px-4 sm:px-6 lg:px-6 mt-2.5 sm:mt-3 space-y-4 sm:space-y-6">
         {/* Step Form Card */}
         <div className="print:hidden">
           <PlanForm
@@ -187,72 +205,89 @@ function PlanPage() {
             purpose={purpose}
             setPurpose={setPurpose}
             handleGenerate={handleGenerate}
+            onReset={handleReset}
             loading={loading}
           />
         </div>
 
-        {/* Feature Highlights Grid */}
-        <div className="print:hidden">
-          <PlannerFeatureCards />
-        </div>
+        {/* ALL Generated Contents - Shown ONLY after clicking Generate with AI */}
+        {hasGenerated && (
+          <div ref={planRef} className="space-y-6 sm:space-y-8 scroll-mt-6 animate-in fade-in slide-in-from-top-4 duration-500">
+            {/* Dynamic AI Smart Trip Intelligence */}
+            <div className="print:hidden">
+              <PlannerFeatureCards
+                originName={fromLocation}
+                templeName={selectedTemple.name}
+                time={time}
+                purpose={purpose}
+                adults={adults}
+                childrenCount={childrenCount}
+                seniorsCount={seniorsCount}
+                distanceKm={distanceKm}
+                travelHours={travelHours}
+                travelMins={travelMins}
+              />
+            </div>
 
-        {/* Live Route Preview */}
-        <div className="print:hidden">
-          <LiveRoutePreview
-            originName={fromLocation}
-            destinationName={selectedTemple.city || "Tiruvannamalai"}
-            distanceKm={distanceKm}
-            durationHours={travelHours}
-            durationMins={travelMins}
-            onOpenFullMap={() => setFullMap(true)}
-          />
-        </div>
+            {/* Live Route Preview */}
+            <div className="print:hidden">
+              <LiveRoutePreview
+                originName={fromLocation}
+                destinationName={selectedTemple.city || "Tiruvannamalai"}
+                distanceKm={distanceKm}
+                durationHours={travelHours}
+                durationMins={travelMins}
+                onOpenFullMap={() => setFullMap(true)}
+              />
+            </div>
 
-        {/* Sample AI Itinerary */}
-        <div>
-          <SampleItineraryCard
-            templeName={selectedTemple.name}
-            selectedTime={time}
-            imageSrc="/planner_itinerary_temple_hd.jpg"
-          />
-        </div>
+            {/* Sample AI Itinerary */}
+            <div>
+              <SampleItineraryCard
+                templeName={selectedTemple.name}
+                selectedTime={time}
+                imageSrc="/planner_itinerary_temple_hd.jpg"
+              />
+            </div>
 
-        {/* Your Temple Visit Plan Output Card */}
-        <div ref={planRef}>
-          <TempleVisitPlanCard
-            templeName={selectedTemple.name}
-            travelDate={formattedDate}
-            bestDarshanTime={bestDarshanTime}
-            distanceKm={distanceKm}
-            travelHours={travelHours}
-            travelMins={travelMins}
-            originName={fromLocation}
-            stayPrice="From ₹1,200 / night"
-            waitTime="45 – 60 min"
-            crowdLevel={crowdLevel}
-            onOpenMap={() => setFullMap(true)}
-          />
-        </div>
+            {/* Your Temple Visit Plan Output Card */}
+            <div>
+              <TempleVisitPlanCard
+                templeName={selectedTemple.name}
+                travelDate={formattedDate}
+                bestDarshanTime={bestDarshanTime}
+                distanceKm={distanceKm}
+                travelHours={travelHours}
+                travelMins={travelMins}
+                originName={fromLocation}
+                stayPrice="From ₹1,200 / night"
+                waitTime="15 – 25 min"
+                crowdLevel={crowdLevel}
+                onOpenMap={() => setFullMap(true)}
+              />
+            </div>
 
-        {/* Recommended Transport Modes */}
-        <div>
-          <RecommendedTransportCard
-            originName={fromLocation}
-            destinationCity={selectedTemple.city || "Tiruvannamalai"}
-            travelHours={travelHours}
-            travelMins={travelMins}
-          />
-        </div>
+            {/* Recommended Transport Modes */}
+            <div>
+              <RecommendedTransportCard
+                originName={fromLocation}
+                destinationCity={selectedTemple.city || "Tiruvannamalai"}
+                travelHours={travelHours}
+                travelMins={travelMins}
+              />
+            </div>
 
-        {/* Recommended Stays Nearby */}
-        <div>
-          <RecommendedStaysCard
-            travelDate={formattedDate}
-            adults={adults}
-            childrenCount={childrenCount}
-            seniorsCount={seniorsCount}
-          />
-        </div>
+            {/* Recommended Stays Nearby */}
+            <div>
+              <RecommendedStaysCard
+                travelDate={formattedDate}
+                adults={adults}
+                childrenCount={childrenCount}
+                seniorsCount={seniorsCount}
+              />
+            </div>
+          </div>
+        )}
       </main>
 
       {/* Full View Map Modal */}
