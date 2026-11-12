@@ -120,7 +120,7 @@ export const AshtaLingamsPanel = memo(function AshtaLingamsPanel({
       </div>
 
       {/* Full status table */}
-      <div className="gv-card p-5">
+      {/* <div className="gv-card p-5">
         <h3 className="mb-3 font-serif text-base font-bold text-[#14532d]">
           {t("Ashta Lingam Status")}
         </h3>
@@ -178,7 +178,7 @@ export const AshtaLingamsPanel = memo(function AshtaLingamsPanel({
             </tbody>
           </table>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 });
