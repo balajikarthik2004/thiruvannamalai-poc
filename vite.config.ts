@@ -37,13 +37,6 @@ export default defineConfig({
             return "i18n";
           }
           if (id.includes("@tanstack")) return "tanstack";
-          if (
-            id.includes("/react/") ||
-            id.includes("/react-dom/") ||
-            id.includes("/scheduler/")
-          ) {
-            return "react";
-          }
           return "vendor";
         },
       },
