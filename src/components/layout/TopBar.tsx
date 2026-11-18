@@ -1,6 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { Home, ChevronRight, MapPin, Bell, ShieldCheck, Settings, Award, MessageCircle, LogOut, User } from "lucide-react";
+import { Home, ChevronRight, MapPin, Bell, Settings, Award, MessageCircle, LogOut, User } from "lucide-react";
 
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { MAIN_NAV, QUICK_HELP } from "./nav-config";
@@ -156,14 +156,6 @@ function ProfileMenu() {
         <DropdownMenuItem asChild>
           <Link to="/profile" className="cursor-pointer gap-2">
             <Settings className="h-4 w-4" /> {t("Settings")}
-          </Link>
-        </DropdownMenuItem>
-
-        <DropdownMenuSeparator />
-        {/* Temple staff console — kept out of the devotee sidebar. */}
-        <DropdownMenuItem asChild>
-          <Link to="/admin" className="cursor-pointer gap-2 text-[#8a6410]">
-            <ShieldCheck className="h-4 w-4" /> {t("Temple Operations")}
           </Link>
         </DropdownMenuItem>
 

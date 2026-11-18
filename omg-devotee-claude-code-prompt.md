@@ -7,7 +7,7 @@
 I have a React + Vite + Tailwind CSS temple management prototype at:
 C:\Users\BalajiKrishnan\Desktop\Projects\temple\temple-path
 
-This is the OMG Devotee platform — a smart temple experience app focused on Thiruvannamalai Arunachaleswarar Temple. I need to update it for a demo to temple trustees/management. Please scan the entire codebase first, understand the structure, then implement the following changes in order.
+This is the OMG Devotee platform — a DEVI app focused on Thiruvannamalai Arunachaleswarar Temple. I need to update it for a demo to temple trustees/management. Please scan the entire codebase first, understand the structure, then implement the following changes in order.
 
 ## PHASE 1 — DEMO-READY FIXES (Do these first)
 
@@ -52,7 +52,7 @@ For each of these pages:
 - Update the currency symbol and formatting throughout. Use ₹ with Indian number formatting (e.g., ₹4,899).
 
 ### 4. Fix Branding Consistency
-- The sidebar shows "OMG DEVI" — change this to "OMG Devotee" or just "OMG" with a subtitle "Smart Temple Experience" to match the page title.
+- The sidebar shows "OMG DEVI" — change this to "OMG Devotee" or just "OMG" with a subtitle "DEVI" to match the page title.
 - Make sure the logo/brand name is consistent across all pages.
 
 ### 5. Add Tamil Language Support (Basic)

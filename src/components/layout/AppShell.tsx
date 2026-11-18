@@ -72,17 +72,19 @@ export function AppShell() {
             className="group flex min-w-0 items-center gap-3 transition-opacity hover:opacity-95"
             title="OMG Devotee — DEVI"
           >
-            <img
-              src={omLogo}
-              alt="Om"
-              className="h-10 w-auto shrink-0 object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
-            />
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-b from-white to-[#FAF6F0] p-1.5 shadow-[0_2px_8px_rgba(0,0,0,0.18)] border border-[#C48437]/35 transition-transform group-hover:scale-105">
+              <img
+                src={omLogo}
+                alt="Om"
+                className="h-full w-full object-contain"
+              />
+            </div>
             <div className="flex min-w-0 flex-col">
-              <span className="font-sans text-[17px] font-bold leading-tight tracking-normal text-white">
-                OMG Devotee
+              <span className="font-sans text-[18px] font-bold leading-tight tracking-normal text-white">
+                OMG
               </span>
-              <span className="mt-0.5 text-[9.5px] font-semibold uppercase tracking-[0.16em] text-[#C48437]">
-                {t("SMART TEMPLE EXPERIENCE")}
+              <span className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-white">
+                {t("DEVI")}
               </span>
             </div>
           </Link>
@@ -189,7 +191,9 @@ export function AppShell() {
               </Link>
             )}
             <Link to="/" className="group flex min-w-0 items-center gap-2.5">
-              <img src={omLogo} alt="Om" className="h-7 w-7 shrink-0 object-contain" />
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-b from-white to-[#FAF6F0] p-1 shadow-sm border border-[#C48437]/35">
+                <img src={omLogo} alt="Om" className="h-full w-full object-contain" />
+              </div>
               <span className="truncate font-sans text-base font-bold tracking-tight text-white">
                 {t("OMG Devotee")}
               </span>
@@ -243,9 +247,8 @@ export function AppShell() {
             <Link
               key={entry.label}
               to={entry.to!}
-              className={`relative flex flex-col items-center justify-center gap-0.5 text-[10px] transition-all ${
-                active ? "text-[#0B2F25]" : "text-[#77736C] hover:text-[#202124]"
-              }`}
+              className={`relative flex flex-col items-center justify-center gap-0.5 text-[10px] transition-all ${active ? "text-[#0B2F25]" : "text-[#77736C] hover:text-[#202124]"
+                }`}
             >
               {active && (
                 <span className="absolute top-0 left-1/2 h-0.5 w-6 -translate-x-1/2 rounded-b-full bg-[#C48437]" />
